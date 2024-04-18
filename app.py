@@ -45,15 +45,21 @@ def main():
 @app.route("/home", methods=["GET"])
 def home():
     last_quotes = list(srp.load_last(Quote, 10))
+    quotelists = list(srp.load_all(QuoteList))
+    
     for quote in last_quotes:
         quote.safe_id = quote.get_safe_id(srp) 
-    
-    quotelists = list(srp.load_all(QuoteList))
+        quote.quotelists_names = []
+        for quotelist in quotelists:
+            if quote.safe_id in quotelist.quote_ids:
+                name = f"✓ {quotelist.name}"
+                quote.quotelists_names.append(name)
+            else:
+                quote.quotelists_names.append(quotelist.name)
+        
     for quotelist in quotelists:
-        print(f"{quotelist=}")
         quotelist.quotes = []
         for quote_id in quotelist.quote_ids:
-            print(f"{quote_id=}")
             quote_oid = srp.oid_from_safe(quote_id)
             quote = srp.load(quote_oid)
             quote.safe_id = quote_id
@@ -89,11 +95,18 @@ def add_quotelist():
 @app.route("/quotelists/quotelist/add_song", methods=["POST"])
 def add_song_quotelist():
     quotelist_name = flask.request.form.get("quotelistName")
-    print(f"{quotelist_name=}")
     quote_safe_id = flask.request.form.get("quoteSafeID")
-    quotelist = srp.find_first(QuoteList, lambda ql: ql.name == quotelist_name)
-    quotelist.add_quote_id(quote_safe_id)
-    quotelist.srp_save(srp)
+    print(f"{quotelist_name}")
+    print(f"{quotelist_name[:2]=}")
+    print(f"{quotelist_name[2:]=}")
+    if quotelist_name[:2] == "✓ ":
+        quotelist = srp.find_first(QuoteList, lambda ql: ql.name == quotelist_name[2:])     
+        quotelist.remove_quote_id(quote_safe_id)
+        quotelist.srp_save(srp)
+    else:
+        quotelist = srp.find_first(QuoteList, lambda ql: ql.name == quotelist_name)
+        quotelist.add_quote_id(quote_safe_id)
+        quotelist.srp_save(srp)
     
     return flask.redirect("/home", 302)
 
