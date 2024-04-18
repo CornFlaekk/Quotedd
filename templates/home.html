@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<head>
+    <meta-charset="UTF-8"/>
+    <title>Home</title>
+</head>
+<body>
+    <!-- Form to add new QUOTE -->
+    <h3>Submit your Quote</h3>
+    <form action="/quote/add" method="post">
+        <label for="quoteContent">Quote: </label>
+        <input type="text" id="quoteContent" name="quoteContent">
+        <br>
+        <label for="quoteBook">Book: </label>
+        <input type="text" id="quoteBook" name="quoteBook">
+        <br>
+        <label for="quoteAuthor">Author: </label>
+        <input type="text" id="quoteAuthor" name="quoteAuthor">
+        <br>
+        <input type="submit">
+    </form>
+
+    <!-- Form to add new QuoteList -->
+    <h3>Create new QuoteList</h3>
+    <form action="quotelists/add" method="post">
+        <label for="quotelistName">Name:</label>
+        <input type="text" id="quotelistName" name="quotelistName">
+        <br>
+        <label for="quotelistDesc">Description:</label>
+        <input type="text" id="quotelistDesc" name="quotelistDesc">
+        <br>
+        <input type="submit">
+    </form>
+
+    <!-- Your Quotelists -->
+    <!-- TODO: Este apartado estará en su propia página, para consultar tus listas -->
+    <h3>Your QuoteLists</h3>
+    <ol>
+    {% for quotelist in quotelists %}
+        <li>{{ quotelist.name }}</li>
+            <ul>
+                {% for quote in quotelist.quotes %}
+                    <li>{{ quote.content }}</li>
+                {% endfor %}
+            </ul>
+    {% endfor %}
+    </ol>
+
+    <!-- Show last 10 QUOTES on the DB -->
+    <h3>Recently submitted Quotes</h3>
+    {% for quote in last_quotes %}
+        <form action="/quotelists/quotelist/add_song" method="POST">
+            {{ quote }}
+
+            <input type="hidden" name="quoteSafeID" id="quoteSafeID" value={{ quote.safe_id }}>
+            <select name="quotelistName" id="quotelistName" onchange="this.form.submit()">
+                <option value="">-</option>
+                {% for quotelist in quotelists %}
+                    <option value="{{ quotelist.name }}"">{{ quotelist.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+           
+        <br>
+    {% endfor %}
+
+</body>
