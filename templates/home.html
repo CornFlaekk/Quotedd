@@ -48,9 +48,9 @@
     <!-- Show last 10 QUOTES on the DB -->
     <h3>Recently submitted Quotes</h3>
     {% for quote in last_quotes %}
+        {{ quote }}
+        <!-- SELECT Quotelist to add -->
         <form action="/quotelists/quotelist/add_song" method="POST">
-            {{ quote }}
-
             <input type="hidden" name="quoteSafeID" id="quoteSafeID" value={{ quote.safe_id }}>
             <select name="quotelistName" id="quotelistName" onchange="this.form.submit()">
                 <option value="">-</option>
@@ -58,6 +58,11 @@
                     <option value="{{ quotelist_name }}"">{{ quotelist_name }}</option>
                 {% endfor %}
             </select>
+        </form>
+        <!-- Redirect to Quote page -->
+        <form action="/quotes/quote" method="GET">
+            <input type="hidden" name="quoteSafeID" id="quoteSafeID" value={{ quote.safe_id }}>
+            <input type="submit" value="Open Quote page">
         </form>
            
         <br>

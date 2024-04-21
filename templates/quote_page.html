@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+    <meta-charset="UTF-8"/>
+    <title>Home</title>
+</head>
+<body>
+    {{ quote }}
+    <form action="/quotelists/quotelist/add_song" method="POST">
+        <input type="hidden" name="quoteSafeID" id="quoteSafeID" value={{ quote.safe_id }}>
+        <select name="quotelistName" id="quotelistName" onchange="this.form.submit()">
+            <option value="">-</option>
+            {% for quotelist_name in quote.quotelists_names %}
+                <option value="{{ quotelist_name }}"">{{ quotelist_name }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    
+    <h3>Sección de Comentarios</h3>
+    <!-- Add a comment -->
+    <form action="/quotes/quote/comments/add" method="POST">
+        <input type="hidden" name="quoteSafeID" id="quoteSafeID" value={{ quote.safe_id }}>
+        <textarea id="commentContent" name="commentContent" cols="70" placeholder="Escribe tu comentario..."></textarea>
+        <input type="submit">
+    </form>
+    
+    <!-- Show all comments -->
+    {% for comment in quote.comments %}
+        > {{ comment }}
+        <br>
+    {% endfor %}
+
+
+    <br>
+    <a href="/home">Página de home de invitado</a>
+</body>

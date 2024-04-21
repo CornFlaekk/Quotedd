@@ -7,6 +7,7 @@ import datetime
 from model.UserDto import User
 from model.QuoteDto import Quote
 from model.QuoteListsDto import QuoteList
+from model.CommentDto import Comment
 
 def create_app():
     lmanager = flask_login.login_manager.LoginManager()
@@ -17,15 +18,8 @@ def create_app():
     lmanager.init_app(flapp)
     return flapp, lmanager, sirp
 
-
 app, lm, srp = create_app()
-ql = srp.load_first(QuoteList, 1)
-#print(ql)
-#cita2 = Cita("Mi pinga 2", "La pinga 2", "The pinga")
-#cita2_oid = srp.save(cita2)
-#for cita in srp.load_all(Cita):
-#    print(cita)
-#print(srp.load(cita2_oid))
+
 
 @lm.user_loader
 def user_loader(id: str) -> User:
@@ -79,8 +73,7 @@ def add_quote():
     quote_author = flask.request.form.get("quoteAuthor")
     quote_date = datetime.datetime.now()
     q = Quote(quote_content, quote_book, quote_author, quote_date)
-    print(f"OID: {q.srp_save(srp)}")
-    print(f"OID_2: {q.oid}")
+    q.srp_save(srp)
     
     return flask.redirect("/home", 302)
 
@@ -96,9 +89,6 @@ def add_quotelist():
 def add_song_quotelist():
     quotelist_name = flask.request.form.get("quotelistName")
     quote_safe_id = flask.request.form.get("quoteSafeID")
-    print(f"{quotelist_name}")
-    print(f"{quotelist_name[:2]=}")
-    print(f"{quotelist_name[2:]=}")
     if quotelist_name[:2] == "✓ ":
         quotelist = srp.find_first(QuoteList, lambda ql: ql.name == quotelist_name[2:])     
         quotelist.remove_quote_id(quote_safe_id)
@@ -107,8 +97,45 @@ def add_song_quotelist():
         quotelist = srp.find_first(QuoteList, lambda ql: ql.name == quotelist_name)
         quotelist.add_quote_id(quote_safe_id)
         quotelist.srp_save(srp)
+        
+    origin_page = flask.request.environ.get("HTTP_REFERER")
+    return flask.redirect(origin_page, 302)
+
+@app.route("/quotes/quote", methods=["GET"])
+def quote_page():
+    quote_safe_id = flask.request.args.get("quoteSafeID")
+    quote_oid = srp.oid_from_safe(quote_safe_id)
+    quote = srp.load(quote_oid)
+    quote.safe_id = quote_safe_id
     
-    return flask.redirect("/home", 302)
+    quotelists = list(srp.load_all(QuoteList))
+    quote.quotelists_names = []
+    for quotelist in quotelists:
+            if quote.safe_id in quotelist.quote_ids:
+                name = f"✓ {quotelist.name}"
+                quote.quotelists_names.append(name)
+            else:
+                quote.quotelists_names.append(quotelist.name)
+                
+    comments = list(srp.filter(Comment, lambda c: c.quote_id == quote.safe_id))
+    quote.comments = comments
+                    
+    values = {
+        "quote" : quote
+    }
+    return flask.render_template("quote_page.html", **values)
+
+@app.route("/quotes/quote/comments/add", methods=["POST"])
+def add_comment():
+    quote_safe_id = flask.request.form.get("quoteSafeID")
+    comment_content = flask.request.form.get("commentContent")
+    comment_date = datetime.datetime.now()
+    c = Comment(comment_content, quote_safe_id, comment_date)
+    c.srp_save(srp)
+    
+    origin_page = flask.request.environ.get("HTTP_REFERER")
+    return flask.redirect(origin_page, 302)
+    
 
 if __name__ == "__main__":
        flask.run()
