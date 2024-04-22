@@ -1,8 +1,8 @@
 from model.Entity import Entity
 
 class QuoteList(Entity):
-    def __init__(self, name, description):
-        Entity.__init__(self)
+    def __init__(self, name, description, user):
+        Entity.__init__(self, user)
         self.__name = name
         self.__description = description
         self.__quote_ids = []  #Quote IDs are their safe IDs

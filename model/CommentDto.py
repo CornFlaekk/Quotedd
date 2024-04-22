@@ -1,8 +1,8 @@
 from model.Entity import Entity
 
 class Comment(Entity):
-    def __init__(self, content, quote_id, date):
-        Entity.__init__(self)
+    def __init__(self, content, quote_id, date, user):
+        Entity.__init__(self, user)
         self.__content = content
         self.__quote_id = quote_id      #Quote safe ID
         self.__date = date
@@ -20,4 +20,4 @@ class Comment(Entity):
         return self.__date
     
     def __str__(self) -> str:
-        return f"{self.content} [Posted on {self.date}]"
+        return f"{self.content} [Posted by {self.user}]"

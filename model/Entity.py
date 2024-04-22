@@ -1,7 +1,12 @@
 class Entity:
-    def __init__(self) -> None:
+    def __init__(self, user) -> None:
         self.__oid = -1
-        
+        self.__user = user
+    
+    @property
+    def user(self):
+        return self.__user    
+    
     @property
     def oid(self):
         return self.__oid

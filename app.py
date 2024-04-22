@@ -22,24 +22,77 @@ app, lm, srp = create_app()
 
 
 @lm.user_loader
-def user_loader(id: str) -> User:
-    return User.find(srp, id)
-...
+def user_loader(username: str) -> User:
+    return User.find(srp, username)
+
 
 @lm.unauthorized_handler
 def unauthorized_handler():
     flask.flash("Unauthorized user")
-    return flask.redirect("/")
-...
+    return flask.redirect("/login")
+
 
 @app.route("/", methods=["GET"])
 def main():
-    return flask.send_file("index.html")
+    user = User.current()
+    print(user)
+    if user is None:
+        return flask.send_file("static/index.html")
+    else:
+        return flask.redirect("/home")
 
+
+# > LOGIN <
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if flask.request.method == "GET":
+        return flask.send_file("static/login.html")
+    else:
+        user_name = flask.request.form.get("userName")
+        user_password = flask.request.form.get("userPassword")
+        user = User.find(srp, user_name)
+        
+        if user is None or not user.compare_passwd(user_password):
+            flask.flash("Incorrect login credentials")
+            return flask.redirect("/login")
+        else:
+            flask.flash("Login successful")
+            flask_login.login_user(user, force=True)
+            return flask.redirect("/home")
+
+
+# > LOGOUT <
+@flask_login.login_required
+@app.route("/logout", methods=["GET"])
+def logout():
+    flask_login.logout_user()
+    return flask.redirect("/")
+
+
+# > REGISTER <
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if flask.request.method == "GET":
+        return flask.send_file("static/register.html")
+    else:
+        user_name = flask.request.form.get("userName")
+        user_email = flask.request.form.get("userEmail")
+        user_password = flask.request.form.get("userPassword")
+        
+        u = User(user_name, user_email, user_password)
+        srp.save(u)
+        flask.flash("User registered")
+        return flask.redirect("/login")
+
+
+# > HOME PAGE <
+@flask_login.login_required
 @app.route("/home", methods=["GET"])
 def home():
+    user = flask_login.current_user
+    print(f"{user=}")
     last_quotes = list(srp.load_last(Quote, 10))
-    quotelists = list(srp.load_all(QuoteList))
+    quotelists = list(srp.filter(QuoteList, lambda ql: ql.user == user.name))
     
     for quote in last_quotes:
         quote.safe_id = quote.get_safe_id(srp) 
@@ -66,27 +119,35 @@ def home():
     
     return flask.render_template("home.html", **values)
 
+
+# > ADD QUOTE <
 @app.route("/quote/add", methods=["POST"])
 def add_quote():
     quote_content = flask.request.form.get("quoteContent")
     quote_book = flask.request.form.get("quoteBook")
     quote_author = flask.request.form.get("quoteAuthor")
     quote_date = datetime.datetime.now()
-    q = Quote(quote_content, quote_book, quote_author, quote_date)
+    user = User.current()
+    q = Quote(quote_content, quote_book, quote_author, quote_date, user.name)
     q.srp_save(srp)
     
     return flask.redirect("/home", 302)
 
+
+# > ADD QUOTELIST <
 @app.route("/quotelists/add", methods=["POST"])
 def add_quotelist():
     quotelist_name = flask.request.form.get("quotelistName")
     quotelist_desc = flask.request.form.get("quotelistDesc")
-    ql = QuoteList(quotelist_name, quotelist_desc)
+    user = User.current()
+    ql = QuoteList(quotelist_name, quotelist_desc, user.name)
     ql.srp_save(srp)
     return flask.redirect("/home", 302)
 
-@app.route("/quotelists/quotelist/add_song", methods=["POST"])
-def add_song_quotelist():
+
+# > ADD QUOTE TO QUOTELIST <
+@app.route("/quotelists/quotelist/add_quote", methods=["POST"])
+def add_quote_quotelist():
     quotelist_name = flask.request.form.get("quotelistName")
     quote_safe_id = flask.request.form.get("quoteSafeID")
     if quotelist_name[:2] == "✓ ":
@@ -101,6 +162,8 @@ def add_song_quotelist():
     origin_page = flask.request.environ.get("HTTP_REFERER")
     return flask.redirect(origin_page, 302)
 
+
+# > VIEW QUOTE PAGE <
 @app.route("/quotes/quote", methods=["GET"])
 def quote_page():
     quote_safe_id = flask.request.args.get("quoteSafeID")
@@ -125,12 +188,15 @@ def quote_page():
     }
     return flask.render_template("quote_page.html", **values)
 
+
+# > ADD COMMENT TO QUOTE <
 @app.route("/quotes/quote/comments/add", methods=["POST"])
 def add_comment():
     quote_safe_id = flask.request.form.get("quoteSafeID")
     comment_content = flask.request.form.get("commentContent")
     comment_date = datetime.datetime.now()
-    c = Comment(comment_content, quote_safe_id, comment_date)
+    user = User.current()
+    c = Comment(comment_content, quote_safe_id, comment_date, user.name)
     c.srp_save(srp)
     
     origin_page = flask.request.environ.get("HTTP_REFERER")

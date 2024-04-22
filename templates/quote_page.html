@@ -4,8 +4,9 @@
     <title>Home</title>
 </head>
 <body>
+    <a href="/logout">Logout</a><br>
     {{ quote }}
-    <form action="/quotelists/quotelist/add_song" method="POST">
+    <form action="/quotelists/quotelist/add_quote" method="POST">
         <input type="hidden" name="quoteSafeID" id="quoteSafeID" value={{ quote.safe_id }}>
         <select name="quotelistName" id="quotelistName" onchange="this.form.submit()">
             <option value="">-</option>
