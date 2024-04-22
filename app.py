@@ -14,7 +14,7 @@ def create_app():
     flapp = flask.Flask(__name__)
     sirp = sirope.Sirope()
     
-    flapp.config.from_file("cfg/config.json", load=json.load)
+    flapp.config.from_file("instance/config.json", load=json.load)
     lmanager.init_app(flapp)
     return flapp, lmanager, sirp
 
@@ -90,7 +90,11 @@ def register():
 @app.route("/home", methods=["GET"])
 def home():
     user = flask_login.current_user
-    print(f"{user=}")
+    try:
+        user.name
+    except AttributeError:
+        return flask.redirect("/login")
+    
     last_quotes = list(srp.load_last(Quote, 10))
     quotelists = list(srp.filter(QuoteList, lambda ql: ql.user == user.name))
     
@@ -114,7 +118,8 @@ def home():
 
     values = {
         "last_quotes" : last_quotes,
-        "quotelists"  :quotelists
+        "quotelists"  :quotelists,
+        "user" : user
     }
     
     return flask.render_template("home.html", **values)
@@ -146,10 +151,12 @@ def add_quotelist():
 
 
 # > ADD QUOTE TO QUOTELIST <
-@app.route("/quotelists/quotelist/add_quote", methods=["POST"])
+@app.route("/quotelists/quotelist/add_quote", methods=["GET"])
 def add_quote_quotelist():
-    quotelist_name = flask.request.form.get("quotelistName")
-    quote_safe_id = flask.request.form.get("quoteSafeID")
+    
+    quotelist_name = flask.request.args.get("quotelistName")
+    quote_safe_id = flask.request.args.get("quoteSafeID")
+    
     if quotelist_name[:2] == "✓ ":
         quotelist = srp.find_first(QuoteList, lambda ql: ql.name == quotelist_name[2:])     
         quotelist.remove_quote_id(quote_safe_id)
