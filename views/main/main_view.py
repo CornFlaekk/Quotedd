@@ -7,7 +7,6 @@ import datetime
 from model.UserDto import User
 from model.QuoteDto import Quote
 from model.QuoteListsDto import QuoteList
-from model.CommentDto import Comment
 
 
 main_blueprint = flask.blueprints.Blueprint("main", __name__,

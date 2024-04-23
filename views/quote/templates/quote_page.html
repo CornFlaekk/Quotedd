@@ -3,7 +3,10 @@
 {% block html_content %}
 
 <a href="/logout">Logout</a><br>
-    {{ quote }}
+    <!-- Display Quote -->
+    {% include "quote.html" %}
+
+
     <form action="/quotelists/quotelist/add_quote" method="POST">
         <input type="hidden" name="quoteSafeID" id="quoteSafeID" value={{ quote.safe_id }}>
         <select name="quotelistName" id="quotelistName" onchange="this.form.submit()">

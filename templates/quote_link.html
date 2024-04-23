@@ -1,0 +1,4 @@
+{% extends "quote.html" %}
+{% block link %}
+    <a class="stretched-link" onclick="location.href = '/quote?quoteSafeID={{ quote.safe_id }}'" href="#"></a>
+{% endblock link %}
