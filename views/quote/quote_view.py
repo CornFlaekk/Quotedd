@@ -41,7 +41,7 @@ def quote_page():
     quote.safe_id = quote_safe_id
     quote.time_elapsed = utils.time_elapsed(quote.date)
     
-    quotelists = list(srp.load_all(QuoteList))
+    quotelists = list(srp.filter(QuoteList, lambda ql: ql.user == user.name))
     quote.quotelists_names = []
     for quotelist in quotelists:
             if quote.safe_id in quotelist.quote_ids:
