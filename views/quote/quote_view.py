@@ -3,6 +3,8 @@ import flask_login
 import sirope
 import datetime
 
+import utils.utils as utils
+
 from model.QuoteDto import Quote
 from model.UserDto import User
 from model.QuoteListsDto import QuoteList
@@ -31,10 +33,13 @@ def add_quote():
 # > VIEW QUOTE PAGE <
 @quote_blueprint.route("", methods=["GET"])
 def quote_page():
+    user = flask_login.current_user
+    
     quote_safe_id = flask.request.args.get("quoteSafeID")
     quote_oid = srp.oid_from_safe(quote_safe_id)
     quote = srp.load(quote_oid)
     quote.safe_id = quote_safe_id
+    quote.time_elapsed = utils.time_elapsed(quote.date)
     
     quotelists = list(srp.load_all(QuoteList))
     quote.quotelists_names = []
@@ -46,10 +51,13 @@ def quote_page():
                 quote.quotelists_names.append(quotelist.name)
                 
     comments = list(srp.filter(Comment, lambda c: c.quote_id == quote.safe_id))
+    for comment in comments:
+        comment.time_elapsed = utils.time_elapsed(comment.date)
     quote.comments = comments
                     
     values = {
-        "quote" : quote
+        "quote" : quote,
+        "user"  : user
     }
     return flask.render_template("quote_page.html", **values)
 

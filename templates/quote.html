@@ -3,6 +3,7 @@
         <div class="row">
             <div class="col-md-auto">
                 <figure>
+                    
                     <blockquote class="blockquote">
                     <p>{{ quote.content }}</p>
                     </blockquote>
@@ -10,6 +11,7 @@
                     {{ quote.author }}, <cite title="Source Title">{{ quote.book }}</cite>
                     </figcaption>
                 </figure>
+                <div class="text-secondary-emphasis">@{{ quote.user }} · {{ quote.time_elapsed }}</div>
             </div>
             <!-- SELECT Quotelist to add in Dropdown Menu -->
             <div class="col input-group h-50">

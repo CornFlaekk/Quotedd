@@ -2,36 +2,38 @@
 {% block head_title %}Quote{% endblock head_title%}
 {% block html_content %}
 
-<a href="/logout">Logout</a><br>
-    <!-- Display Quote -->
-    {% include "quote.html" %}
+{% include "sidebar.html" %}
+    <div class="col-auto col-md-8">
+        <!-- Display Quote -->
+        <div class="pt-5">
+            {% include "quote.html" %}
+        </div>
+        
+        <div class="container-sm py-5">
+            <hr>
+        </div>
+        <!-- Add a comment -->
+        
+        <form action="/quote/comments/add" method="POST">
+            <div class="container-sm card p-3">
+                <div class="row">
+                    <input type="hidden" name="quoteSafeID" id="quoteSafeID" value={{ quote.safe_id }}>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control h-100 d-inline-block p-2" name="commentContent" id="commentContent" placeholder="Want to comment something?"></textarea>    
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary w-100 p-2">Submit</button>
+                    </div>
+                    <!-- Submit Comment Button -->
+                    <div class="col-md-auto">
 
-
-    <form action="/quotelists/quotelist/add_quote" method="POST">
-        <input type="hidden" name="quoteSafeID" id="quoteSafeID" value={{ quote.safe_id }}>
-        <select name="quotelistName" id="quotelistName" onchange="this.form.submit()">
-            <option value="">-</option>
-            {% for quotelist_name in quote.quotelists_names %}
-                <option value="{{ quotelist_name }}">{{ quotelist_name }}</option>
-            {% endfor %}
-        </select>
-    </form>
-    
-    <h3>Sección de Comentarios</h3>
-    <!-- Add a comment -->
-    <form action="/quote/comments/add" method="POST">
-        <input type="hidden" name="quoteSafeID" id="quoteSafeID" value={{ quote.safe_id }}>
-        <textarea id="commentContent" name="commentContent" cols="70" placeholder="Escribe tu comentario..."></textarea>
-        <input type="submit">
-    </form>
-    
-    <!-- Show all comments -->
-    {% for comment in quote.comments %}
-        > {{ comment }}
-        <br>
-    {% endfor %}
-
-
-    <br>
-    <a href="/home">Página de home de invitado</a>
-    {% endblock html_content %}
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- Show all comments -->
+        {% for comment in quote.comments %}
+            {% include "comment.html" %}
+        {% endfor %}
+    </div>
+{% endblock html_content %}

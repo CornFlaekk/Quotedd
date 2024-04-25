@@ -1,77 +1,56 @@
 {% extends "skeleton.html" %}
+{% block head_title %}Home{% endblock head_title%}
 {% block html_content %}
 
-    Hola, {{ user.name }} <a href="/logout">Logout</a><br>
+    <!-- Sidebar-->
+    {% include "sidebar.html" %}
+            <div class="col-auto col-md-8">
 
-    <!-- Form to add new QUOTE -->
-    <div class="container-sm p-3 card">
-        <div class="col">
-            <h4>Submit your Quote</h4>
-        </div>
-        <form action="/quote/add" method="post" id="addQuote">
-            <div class="row flex-grow-1">
-                <div class="col-md-8 position-relative">
-                    <textarea class="form-control h-100 d-inline-block" name="quoteContent" id="quoteContent" placeholder="You got a new quote?"></textarea>
-                </div>
-                <div class="col me-3">
-                    <div class="row pb-2">
-                        <div class="input-group">
-                            <div class="input-group-text">
-                                Book&nbsp;
-                                <i class="bi bi-book-fill"></i>
+                <!-- Form to add new QUOTE -->
+                <div class="container-sm p-3 card">
+                    <div class="col">
+                        <h4>Submit your Quote</h4>
+                    </div>
+                    <form action="/quote/add" method="post" id="addQuote">
+                        <div class="row flex-grow-1">
+                            <div class="col-md-8 position-relative">
+                                <textarea class="form-control h-100 d-inline-block" name="quoteContent" id="quoteContent" placeholder="You got a new quote?"></textarea>
                             </div>
-                            <input type="text" class="form-control" id="quoteBook" name="quoteBook">
-                        </div>
-                    </div>
-                    <div class="row py-2">
-                        <div class="input-group">
-                            <div class="input-group-text">
-                                Author&nbsp;
-                                <i class="bi bi-person-fill"></i>
+                            <div class="col me-3">
+                                <div class="row pb-2">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            Book&nbsp;
+                                            <i class="bi bi-book-fill"></i>
+                                        </div>
+                                        <input type="text" class="form-control" id="quoteBook" name="quoteBook">
+                                    </div>
+                                </div>
+                                <div class="row py-2">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            Author&nbsp;
+                                            <i class="bi bi-person-fill"></i>
+                                        </div>
+                                        <input type="text" class="form-control" id="quoteAuthor" name="quoteAuthor">
+                                    </div>
+                                </div>
+                                <div class="row pt-2 px-2">
+                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                </div>
                             </div>
-                            <input type="text" class="form-control" id="quoteAuthor" name="quoteAuthor">
                         </div>
-                    </div>
-                    <div class="row pt-2 px-2">
-                        <button class="btn btn-primary" type="submit">Submit</button>
-                    </div>
+                    </form>
                 </div>
-            </div>
-        </form>
-    </div>
 
-    <!-- Form to add new QuoteList -->
-    <h3>Create new QuoteList</h3>
-    <form action="quotelists/add" method="post">
-        <label for="quotelistName">Name:</label>
-        <input type="text" id="quotelistName" name="quotelistName">
-        <br>
-        <label for="quotelistDesc">Description:</label>
-        <input type="text" id="quotelistDesc" name="quotelistDesc">
-        <br>
-        <input type="submit">
-    </form>
-
-    <!-- Your Quotelists -->
-    <!-- TODO: Este apartado estará en su propia página, para consultar tus listas -->
-    <h3>Your QuoteLists</h3>
-    <ol>
-    {% for quotelist in quotelists %}
-        <li>{{ quotelist.name }}</li>
-            <ul>
-                {% for quote in quotelist.quotes %}
-                    <li>{{ quote.content }}</li>
+                <!-- Show last 10 QUOTES on the DB -->
+                <div class="container-sm card p-3">
+                    <h3>Recently submitted Quotes</h3>
+                </div>
+                {% for quote in last_quotes %}
+                    {% include "quote_link.html" %}
                 {% endfor %}
-            </ul>
-    {% endfor %}
-    </ol>
-
-    <!-- Show last 10 QUOTES on the DB -->
-    <div class="container-sm card p-3">
-        <h3>Recently submitted Quotes</h3>
+            </div>
+        </div>
     </div>
-    {% for quote in last_quotes %}
-        {% include "quote_link.html" %}
-    {% endfor %}
-    
 {% endblock %}

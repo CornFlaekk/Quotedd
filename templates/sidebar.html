@@ -1,0 +1,45 @@
+{% block sidebar %}
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-0 bg-dark">
+                <div class="sticky-md-top d-flex flex-column flex-shrink-0 align-items-center align-items-sm-start px-5 pt-3 bg-dark text-white min-vh-100">
+                    <a href="/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-center text-decoration-none">
+                        <i class="bi bi-chat-square-quote-fill"></i>
+                        &nbsp;
+                        <span class="fs-4">Quotedd</span>
+                    </a>
+                    <hr class="w-100">
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="btn btn-outline-secondary border-0 nav-item">
+                            <a href="/home" class="link-light nav-link">
+                                <i class="bi bi-house-door-fill"></i>
+                                &nbsp;
+                                Home
+                            </a>
+                        </li>
+                        <li class="btn btn-outline-secondary border-0 nav-item">
+                            <a href="/quotelist" class="link-light nav-link">
+                                <div class="text-nowrap">
+                                    <i class="bi bi-list-ul"></i>
+                                    &nbsp;
+                                    Quotelists
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <hr class="w-100">
+                    <div class="btn flex-column btn-outline-secondary border-0 dropdown justify-content-center" id="dropdown_user" aria-expanded="false" data-bs-toggle="dropdown">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle pb-3">
+                            <i class="bi bi-person-circle"></i>
+                            &nbsp;
+                            {{ user.name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdown_user">
+                            <li>
+                                <a href="#" onclick="location.href = '/logout'" class="dropdown-item">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+{% endblock sidebar %}

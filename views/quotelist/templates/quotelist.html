@@ -1,0 +1,40 @@
+{% extends "skeleton.html" %}
+{% block html_content %}
+
+    <!-- Sidebar-->
+    {% include "sidebar.html" %}
+                <div class="col-auto col-md-8">
+
+                    <!-- Form to add new QuoteList -->
+                    <h3>Create new QuoteList</h3>
+                    <form action="quotelists/add" method="post">
+                        <label for="quotelistName">Name:</label>
+                        <input type="text" id="quotelistName" name="quotelistName">
+                        <br>
+                        <label for="quotelistDesc">Description:</label>
+                        <input type="text" id="quotelistDesc" name="quotelistDesc">
+                        <br>
+                        <input type="submit">
+                    </form>
+
+                    <!-- Your Quotelists -->
+                    <!-- TODO: Este apartado estará en su propia página, para consultar tus listas -->
+                    <h3>Your QuoteLists</h3>
+                    <ol>
+                    {% for quotelist in quotelists %}
+                        <li>{{ quotelist.name }}</li>
+                            <ul>
+                                {% for quote in quotelist.quotes %}
+                                    <li>{{ quote.content }}</li>
+                                {% endfor %}
+                            </ul>
+                    {% endfor %}
+                    </ol>
+
+                </div>
+                <div class="col-auto col-md-2">
+                </div>
+            </div>
+        </div>
+
+{% endblock html_content %}

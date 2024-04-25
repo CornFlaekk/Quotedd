@@ -4,6 +4,8 @@ import sirope
 import json
 import datetime
 
+import utils.utils as utils 
+
 from model.UserDto import User
 from model.QuoteDto import Quote
 from model.QuoteListsDto import QuoteList
@@ -92,18 +94,13 @@ def home():
                 quote.quotelists_names.append(name)
             else:
                 quote.quotelists_names.append(quotelist.name)
+        #Quote time elapsed since publication
+        quote.time_elapsed = utils.time_elapsed(quote.date)
         
-    for quotelist in quotelists:
-        quotelist.quotes = []
-        for quote_id in quotelist.quote_ids:
-            quote_oid = srp.oid_from_safe(quote_id)
-            quote = srp.load(quote_oid)
-            quote.safe_id = quote_id
-            quotelist.quotes.append(quote)
-
+        
+        
     values = {
         "last_quotes" : last_quotes,
-        "quotelists"  :quotelists,
         "user" : user
     }
     

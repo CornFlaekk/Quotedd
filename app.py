@@ -11,6 +11,7 @@ from model.CommentDto import Comment
 
 import views.quote.quote_view as quote_view
 import views.main.main_view as main_view
+import views.quotelist.quotelist_view as quotelist_view
 
 def create_app():
     lmanager = flask_login.login_manager.LoginManager()
@@ -22,6 +23,7 @@ def create_app():
     
     flapp.register_blueprint(main_view.main_blueprint) 
     flapp.register_blueprint(quote_view.quote_blueprint)
+    flapp.register_blueprint(quotelist_view.quotelist_blueprint)
     
     return flapp, lmanager, sirp
 

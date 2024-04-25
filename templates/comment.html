@@ -1,0 +1,8 @@
+{% block comment_display %}
+
+    <div class="container-sm card p-3">
+        <span class="fs-5">{{ comment.content }}</span>
+        <div class="text-secondary-emphasis pt-2">@{{ comment.user }} · {{ comment.time_elapsed }}</div>
+    </div>
+
+{% endblock comment_display %}
