@@ -19,7 +19,7 @@
                 <button class="btn btn-outline-secondary dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-plus-circle"></i>&nbsp;</button>
                 <ul class="dropdown-menu dropdown-menu-end">
                     {% for quotelist_name in quote.quotelists_names %}
-                        <li><a class="dropdown-item" href="#" onclick="location.href = '/quotelists/quotelist/add_quote?quotelistName={{quotelist_name}}&quoteSafeID={{quote.safe_id}}'">{{ quotelist_name }}</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="location.href = '/quotelist/add_quote?quotelistName={{quotelist_name}}&quoteSafeID={{quote.safe_id}}'">{{ quotelist_name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

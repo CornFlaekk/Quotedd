@@ -105,35 +105,3 @@ def home():
     }
     
     return flask.render_template("home.html", **values)
-
-
-
-# > ADD QUOTELIST <
-@main_blueprint.route("/quotelists/add", methods=["POST"])
-def add_quotelist():
-    quotelist_name = flask.request.form.get("quotelistName")
-    quotelist_desc = flask.request.form.get("quotelistDesc")
-    user = User.current()
-    ql = QuoteList(quotelist_name, quotelist_desc, user.name)
-    ql.srp_save(srp)
-    return flask.redirect("/home", 302)
-
-
-# > ADD QUOTE TO QUOTELIST <
-@main_blueprint.route("/quotelists/quotelist/add_quote", methods=["GET"])
-def add_quote_quotelist():
-    
-    quotelist_name = flask.request.args.get("quotelistName")
-    quote_safe_id = flask.request.args.get("quoteSafeID")
-    
-    if quotelist_name[:2] == "✓ ":
-        quotelist = srp.find_first(QuoteList, lambda ql: ql.name == quotelist_name[2:])     
-        quotelist.remove_quote_id(quote_safe_id)
-        quotelist.srp_save(srp)
-    else:
-        quotelist = srp.find_first(QuoteList, lambda ql: ql.name == quotelist_name)
-        quotelist.add_quote_id(quote_safe_id)
-        quotelist.srp_save(srp)
-        
-    origin_page = flask.request.environ.get("HTTP_REFERER")
-    return flask.redirect(origin_page, 302)

@@ -4,7 +4,7 @@
 
     <!-- Sidebar-->
     {% include "sidebar.html" %}
-            <div class="col-auto col-md-8">
+            <div class="col-auto col-md-8 pt-5">
 
                 <!-- Form to add new QUOTE -->
                 <div class="container-sm p-3 card">
@@ -43,13 +43,16 @@
                     </form>
                 </div>
 
-                <!-- Show last 10 QUOTES on the DB -->
-                <div class="container-sm card p-3">
-                    <h3>Recently submitted Quotes</h3>
+                <div class="container-sm py-4">
+                    <hr>
                 </div>
+
+                <!-- Show last 10 QUOTES on the DB -->
                 {% for quote in last_quotes %}
                     {% include "quote_link.html" %}
                 {% endfor %}
+                <div class="container-sm py-4">
+                </div>
             </div>
         </div>
     </div>
