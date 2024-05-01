@@ -1,16 +1,17 @@
 import flask
 import flask_login
 import sirope
+import redis
 
 from model.QuoteListsDto import QuoteList
 from model.QuoteDto import Quote
-from app import srp
 
 quotelist_blueprint = flask.blueprints.Blueprint("quotelist", __name__,
                                        url_prefix="/quotelist",
                                        template_folder="templates",
                                        static_folder="static")
-#srp = sirope.Sirope()
+redis_server = redis.Redis(host="redis://red-cop97uacn0vc73doqavg", port=6379)
+srp = sirope.Sirope(redis_obj=redis_server)
 
 # VIEW QUOTELISTS
 @flask_login.login_required

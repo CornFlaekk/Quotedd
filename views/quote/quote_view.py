@@ -2,6 +2,7 @@ import flask
 import flask_login
 import sirope
 import datetime
+import redis
 
 import utils.utils as utils
 
@@ -9,14 +10,14 @@ from model.QuoteDto import Quote
 from model.UserDto import User
 from model.QuoteListsDto import QuoteList
 from model.CommentDto import Comment
-from app import srp
 
 
 quote_blueprint = flask.blueprints.Blueprint("quote", __name__,
                                        url_prefix="/quote",
                                        template_folder="templates",
                                        static_folder="static")
-#srp = sirope.Sirope()
+redis_server = redis.Redis(host="redis://red-cop97uacn0vc73doqavg", port=6379)
+srp = sirope.Sirope(redis_obj=redis_server)
 
 # > ADD QUOTE <
 @quote_blueprint.route("/add", methods=["POST"])

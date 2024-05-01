@@ -1,11 +1,12 @@
 import flask
 import flask_login
 import sirope
+import redis
 
 from model.UserDto import User
 from model.QuoteDto import Quote
 from model.QuoteListsDto import QuoteList
-from app import srp
+
 
 import utils.utils as utils
 
@@ -14,7 +15,8 @@ search_blueprint = flask.blueprints.Blueprint("search", __name__,
                                        url_prefix="/search",
                                        template_folder="templates",
                                        static_folder="static")
-#srp = sirope.Sirope()
+redis_server = redis.Redis(host="redis://red-cop97uacn0vc73doqavg", port=6379)
+srp = sirope.Sirope(redis_obj=redis_server)
 
 
 @search_blueprint.route("", methods=["GET"])
