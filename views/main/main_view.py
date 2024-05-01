@@ -16,7 +16,7 @@ main_blueprint = flask.blueprints.Blueprint("main", __name__,
                                        url_prefix="",
                                        template_folder="templates",
                                        static_folder="static")
-redis_server = redis.Redis(host="red-cop97uacn0vc73doqavg", port=6379)
+redis_server = redis.Redis().from_url("redis://red-cop97uacn0vc73doqavg:6379")
 srp = sirope.Sirope(redis_obj=redis_server)
 
 
