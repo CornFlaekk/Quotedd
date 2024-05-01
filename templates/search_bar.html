@@ -1,0 +1,15 @@
+{% block search_bar %}
+
+<div class="container.sm pb-3 w-100">
+    <form action="/search" method="get" id="searchForm">
+        <div class="input-group">
+            <div class="input-group-text">
+                <i class="bi bi-search"></i>
+            </div>
+            <input type="text" class="form-control" value="{{search_query}}" placeholder="Search..." id="searchQuery" name="searchQuery">
+        </div>
+    </form>
+
+</div>
+
+{% endblock  search_bar %}

@@ -17,3 +17,19 @@ def time_elapsed(quote_datetime : datetime.datetime):
         return f"{time_elapsed.seconds}s ago"
     else:
         return f"just now"
+    
+def set_quotes_quotelists(quotes, quotelists, srp):
+    """Add to each quote the quotelists available to be added or removed from."""
+    
+    for quote in quotes:
+        quote.safe_id = quote.get_safe_id(srp) 
+        quote.quotelists_names = []
+        for quotelist in quotelists:
+            if quote.safe_id in quotelist.quote_ids:
+                name = f"✓ {quotelist.name}"
+                quote.quotelists_names.append(name)
+            else:
+                quote.quotelists_names.append(quotelist.name)
+        #Quote time elapsed since publication
+        quote.time_elapsed = time_elapsed(quote.date)
+    return quotes

@@ -1,0 +1,69 @@
+{% extends "skeleton.html" %}
+{% block head_title %}Search{% endblock head_title%}
+{% block html_content %}
+
+    <!-- Sidebar-->
+    {% include "sidebar.html" %}
+            <div class="col-auto col-md-9 pt-4">
+                
+                <!-- Search bar -->
+                {% include "search_bar.html" %}
+
+                <div class="row">
+                    <!-- Show all results links -->
+                    <div class="col-auto col-md-3 mx-3 p-3 w-auto">
+                        <ul class="list-group">
+                            {% for database_result in database_results %}
+                                {% if database_result == search_current %}
+                                    <a class="list-group-item list-group-item-action list-group-item-light" href="/search/{{database_result}}/?searchQuery={{search_query}}">
+                                {% else %}
+                                    <a class="list-group-item list-group-item-action" href="/search/{{database_result}}/?searchQuery={{search_query}}">
+                                {% endif %}
+                                    {% if database_result == "quote_content" %}
+                                        <i class="bi bi-chat-square-quote-fill"></i>
+                                        &nbsp;
+                                        Quote
+                                    {% elif  database_result == "quote_author"%}
+                                        <i class="bi bi-pen-fill"></i>
+                                        &nbsp;
+                                        Author
+                                    {% elif  database_result == "quote_book"%}
+                                        <i class="bi bi-book-fill"></i>
+                                        &nbsp;
+                                        Book
+                                    {% elif  database_result == "quotelist_name"%}
+                                        <i class="bi bi-list-ul"></i>
+                                        &nbsp;
+                                        Quotelist
+                                    {% elif  database_result == "user_name"%}
+                                        <i class="bi bi-person-fill"></i>
+                                        &nbsp;
+                                        User
+                                    {% endif %}
+                                        &nbsp;
+                                        <span class="badge text-bg-primary rounded-pill text-end">{{database_results[database_result]}}</span>
+                                    </a>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="col-auto col-md-8 p-3">
+                        {% if search_type == "quotes" %}
+                            {% for quote in search_quotes %}
+                                {% include "quote_link.html" %}
+                            {% endfor %}
+                        {% elif search_type == "quotelists" %}
+                            {% for quotelist in search_quotelists %}
+                                {% include "quotelist_search.html" %}
+                            {% endfor %}
+                        {% elif search_type == "users" %}
+                            {% for user in search_users %}
+                                {% include "user_search.html" %}
+                            {% endfor %}
+                        {% endif %}
+                        
+                    </div>
+                </div>
+
+
+{% endblock %}
