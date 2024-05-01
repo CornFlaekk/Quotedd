@@ -9,13 +9,14 @@ from model.QuoteDto import Quote
 from model.UserDto import User
 from model.QuoteListsDto import QuoteList
 from model.CommentDto import Comment
+from app import srp
 
 
 quote_blueprint = flask.blueprints.Blueprint("quote", __name__,
                                        url_prefix="/quote",
                                        template_folder="templates",
                                        static_folder="static")
-srp = sirope.Sirope()
+#srp = sirope.Sirope()
 
 # > ADD QUOTE <
 @quote_blueprint.route("/add", methods=["POST"])

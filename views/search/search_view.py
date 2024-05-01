@@ -5,6 +5,7 @@ import sirope
 from model.UserDto import User
 from model.QuoteDto import Quote
 from model.QuoteListsDto import QuoteList
+from app import srp
 
 import utils.utils as utils
 
@@ -13,7 +14,7 @@ search_blueprint = flask.blueprints.Blueprint("search", __name__,
                                        url_prefix="/search",
                                        template_folder="templates",
                                        static_folder="static")
-srp = sirope.Sirope()
+#srp = sirope.Sirope()
 
 
 @search_blueprint.route("", methods=["GET"])

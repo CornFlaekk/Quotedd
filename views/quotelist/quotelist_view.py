@@ -4,13 +4,13 @@ import sirope
 
 from model.QuoteListsDto import QuoteList
 from model.QuoteDto import Quote
-
+from app import srp
 
 quotelist_blueprint = flask.blueprints.Blueprint("quotelist", __name__,
                                        url_prefix="/quotelist",
                                        template_folder="templates",
                                        static_folder="static")
-srp = sirope.Sirope()
+#srp = sirope.Sirope()
 
 # VIEW QUOTELISTS
 @flask_login.login_required

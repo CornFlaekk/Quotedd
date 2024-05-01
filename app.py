@@ -3,6 +3,7 @@ import flask_login
 import sirope
 import json
 import datetime
+import redis
 
 from model.UserDto import User
 from model.QuoteDto import Quote
@@ -18,6 +19,9 @@ def create_app():
     lmanager = flask_login.login_manager.LoginManager()
     flapp = flask.Flask(__name__)
     sirp = sirope.Sirope()
+    
+    redis_server = redis.Redis(host="redis://red-cop97uacn0vc73doqavg", port=6379)
+    sirp = sirope.Sirope(redis_obj=redis_server)
     
     flapp.config.from_file("instance/config.json", load=json.load)
     lmanager.init_app(flapp)

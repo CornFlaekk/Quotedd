@@ -18,6 +18,7 @@ import views.search.search_view as search_view
 def create_app():
     lmanager = flask_login.login_manager.LoginManager()
     flapp = flask.Flask(__name__)
+    sirp = sirope.Sirope()
     redis_server = redis.Redis(host="redis://red-cop97uacn0vc73doqavg", port=6379)
     sirp = sirope.Sirope(redis_obj=redis_server)
     

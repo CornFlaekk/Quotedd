@@ -9,13 +9,14 @@ import utils.utils as utils
 from model.UserDto import User
 from model.QuoteDto import Quote
 from model.QuoteListsDto import QuoteList
+from app import srp
 
 
 main_blueprint = flask.blueprints.Blueprint("main", __name__,
                                        url_prefix="",
                                        template_folder="templates",
                                        static_folder="static")
-srp = sirope.Sirope()
+#srp = sirope.Sirope()
 
 
 
