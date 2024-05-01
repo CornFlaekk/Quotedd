@@ -15,7 +15,7 @@ search_blueprint = flask.blueprints.Blueprint("search", __name__,
                                        url_prefix="/search",
                                        template_folder="templates",
                                        static_folder="static")
-redis_server = redis.Redis(host="redis://red-cop97uacn0vc73doqavg", port=6379)
+redis_server = redis.Redis(host="red-cop97uacn0vc73doqavg", port=6379)
 srp = sirope.Sirope(redis_obj=redis_server)
 
 

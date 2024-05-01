@@ -20,7 +20,7 @@ def create_app():
     flapp = flask.Flask(__name__)
     sirp = sirope.Sirope()
     
-    redis_server = redis.Redis(host="redis://red-cop97uacn0vc73doqavg", port=6379)
+    redis_server = redis.Redis(host="red-cop97uacn0vc73doqavg", port=6379)
     sirp = sirope.Sirope(redis_obj=redis_server)
     
     flapp.config.from_file("instance/config.json", load=json.load)
