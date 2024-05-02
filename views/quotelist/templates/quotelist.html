@@ -5,72 +5,26 @@
     <!-- Sidebar-->
     {% include "sidebar.html" %}
                 <div class="col-auto col-md-8 pt-5">
-
-                    <!-- Form to add new QuoteList -->
-                    <div class="container-sm card p-3 mb-5">
-                        <div class="col">
-                            <h4>Create new QuoteList</h4>
-                        </div>
-                        <form action="quotelist/add" method="post">
-                            <div class="row">
-                                <div class="col col-md-3">
-                                    <input class="form-control" type="text" id="quotelistName" name="quotelistName" placeholder="Quotelist name...">
-                                </div>
-                                <div class="col col-md-6">
-                                    <input class="form-control" type="text" id="quotelistDesc" name="quotelistDesc" placeholder="Description...">
-                                </div>
-                                <div class="col col-md-3 text-center">
-                                    <button class="btn btn-primary w-100" type="submit">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Your Quotelists -->
-                    <!-- TODO: Este apartado estará en su propia página, para consultar tus listas -->
-                    <h3>Your QuoteLists</h3>
-                    <div class="accordion" id="accordionQuotelists">
-                    {% for quotelist in quotelists %}
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{quotelist.safe_id}}" aria-expanded="true" aria-controls="collapse{{quotelist.safe_id}}">
-                                    <span class="fs-5">{{ quotelist.name }}&nbsp;</span>
-                                    <div class="text-end col align-self-end me-3">
-                                        <a class="btn btn-outline-danger border text-decoration-none" onclick="location.href = '/quotelist/delete?quotelistSafeID={{quotelist.safe_id}}'">
-                                            <i class="bi bi-trash-fill text-secondary-emphasis"></i>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="fs-4">{{ quotelist.name }}</span>
+                            <br>
+                            <span>@{{ quotelist.user }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <ul class="list-group">
+                                {% for quote in quotelist.quotes %}
+                                    <li class="list-group-item">
+                                        <a class="stretched-link text-decoration-none link-light m-2" rel="noreferrer" href="/quote?quoteSafeID={{ quote.safe_id }}" target="_blank">
+                                            {{ quote.content }}
+                                            &nbsp;
+                                            <i class="bi bi-box-arrow-up-right"></i>
                                         </a>
-                                    </div>
-                                </button>
-                            </h2>
-                            <div id="collapse{{quotelist.safe_id}}" class="accordion-collapse collapse " data-bs-parent="#accordionQuotelists">
-                                <div class="accordion-body">
-                                    <ul class="list-group">
-                                        <span class="fs-6 pb-2">{{ quotelist.description }}</span>
-                                        {% for quote in quotelist.quotes %}
-                                            <li class="list-group-item">
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <a class="stretched-link text-decoration-none link-light m-2" rel="noreferrer" href="/quote?quoteSafeID={{ quote.safe_id }}" target="_blank">
-                                                        {{ quote.content }}
-                                                        &nbsp;
-                                                        <i class="bi bi-box-arrow-up-right "></i>
-                                                    </a>
-                                                    <a class="btn btn-outline-danger border text-end col align-self-end text-decoration-none z-3 ms-3" onclick="location.href = '/quotelist/add_quote?quotelistName={{quotelist.name}}&quoteSafeID={{quote.safe_id}}'">
-                                                        <i class="bi bi-trash-fill text-secondary-emphasis"></i>
-                                                    </a>
-                                                </div>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>     
-                    {% endfor %}
-                    </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
 
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-auto col-md-2">
-                </div>
-            </div>
-        </div>
-
 {% endblock html_content %}

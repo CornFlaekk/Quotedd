@@ -237,6 +237,9 @@ def search_quotelist_name():
     
     search_quotelists = list(srp.filter(QuoteList, lambda ql: search_query in ql.name))
     
+    for quotelist in search_quotelists:
+        quotelist.safe_id = srp.safe_from_oid(quotelist.oid)
+    
     len_quote_content = len(list(srp.filter(Quote, lambda q: search_query in q.content)))
     len_quote_author = len(list(srp.filter(Quote, lambda q: search_query in q.author)))
     len_quote_book = len(list(srp.filter(Quote, lambda q: search_query in q.book)))
