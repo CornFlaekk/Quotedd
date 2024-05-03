@@ -16,6 +16,14 @@ import views.quotelist.quotelist_view as quotelist_view
 import views.search.search_view as search_view
 
 def create_app():
+
+    import socket
+    hostname=socket.gethostname()
+    IPAddr=socket.gethostbyname(hostname)
+    print("Your Computer Name is:"+hostname)
+    print("Your Computer IP Address is:"+IPAddr)
+
+
     lmanager = flask_login.login_manager.LoginManager()
     flapp = flask.Flask(__name__)
     sirp = sirope.Sirope()
