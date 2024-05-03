@@ -10,7 +10,7 @@ quotelist_blueprint = flask.blueprints.Blueprint("quotelist", __name__,
                                        url_prefix="/quotelist",
                                        template_folder="templates",
                                        static_folder="static")
-redis_server = redis.Redis.from_url("redis://red-cop97uacn0vc73doqavg:6379")
+redis_server = redis.Redis.from_url("rediss://red-cop97uacn0vc73doqavg:Gyj6VvZI4ERMYgHygGLNsANilOXHM4wr@frankfurt-redis.render.com:6379")
 srp = sirope.Sirope(redis_obj=redis_server)
 
 # VIEW QUOTELISTS
