@@ -37,6 +37,14 @@ def login():
     else:
         user_name = flask.request.form.get("userName")
         user_password = flask.request.form.get("userPassword")
+        
+        if len(user_name) < 1:
+            flask.flash("[E] Username is empty")
+            return flask.redirect("/login")
+        elif len(user_password) < 1:
+            flask.flash("[E] Password is empty")
+            return flask.redirect("/login")
+        
         user = User.find(srp, user_name)
         
         if user is None or not user.compare_passwd(user_password):
@@ -65,6 +73,16 @@ def register():
         user_name = flask.request.form.get("userName")
         user_email = flask.request.form.get("userEmail")
         user_password = flask.request.form.get("userPassword")
+        
+        if len(user_name) < 3:
+            flask.flask("[E] Username needs to have at least 3 letters")
+            return flask.redirect("/register")
+        elif (len(user_email) < 3) or ('@' not in user_email) or ('.' not in user_email):
+            flask.flash("[E] Email not valid")
+            return flask.redirect("/register")
+        elif len(user_password) < 3:
+            flask.flash("[E] Password needs to have at least 3 letters")
+            return flask.redirect("/register")
         
         u = User(user_name, user_email, user_password)
         srp.save(u)

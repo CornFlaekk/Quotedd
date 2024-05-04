@@ -2,16 +2,21 @@
 
     {% if message[0:3] == "[E]" %}
         <div role="alert" class="z-3 alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0 m-5" aria-label="error:">
+            {{ message[3:] }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     {% elif message[0:3] == "[S]" %}
         <div role="alert" class="z-3 alert alert-time alert-success fade show position-absolute bottom-0 end-0 m-5" aria-label="error:">
+            {{ message[3:] }}
     {% elif message[0:3] == "[W]" %}
         <div role="alert" class="z-3 alert alert-time alert-warning fade show position-absolute bottom-0 end-0 m-5" aria-label="error:">
+            {{ message[3:] }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     {% else %}
         <div role="alert" class="z-3 alert alert-time alert-dark fade show position-absolute bottom-0 end-0 m-5" aria-label="error:">
+            {{ message[3:] }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     {% endif %}
-        {{ message[3:] }}
-
-    </div>
+        </div>
     
     <script>
         window.setTimeout(function() {

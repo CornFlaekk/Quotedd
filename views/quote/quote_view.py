@@ -23,6 +23,17 @@ def add_quote():
     quote_content = flask.request.form.get("quoteContent")
     quote_book = flask.request.form.get("quoteBook")
     quote_author = flask.request.form.get("quoteAuthor")
+    
+    if len(quote_content) < 1:
+        flask.flash("[E] Quote is empty")
+        return flask.redirect("/home")
+    elif len(quote_book) < 1:
+        flask.flash("[E] Book is empty")
+        return flask.redirect("/home")
+    elif len(quote_author) < 1:
+        flask.flash("[E] Author is empty")
+        return flask.redirect("/home")
+    
     quote_date = datetime.datetime.now()
     user = User.current()
     q = Quote(quote_content, quote_book, quote_author, quote_date, user.name)
@@ -71,6 +82,12 @@ def quote_page():
 def add_comment():
     quote_safe_id = flask.request.form.get("quoteSafeID")
     comment_content = flask.request.form.get("commentContent")
+    
+    if len(comment_content) < 1:
+        flask.flash("[E] Comment is empty")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page)
+    
     comment_date = datetime.datetime.now()
     user = User.current()
     c = Comment(comment_content, quote_safe_id, comment_date, user.name)

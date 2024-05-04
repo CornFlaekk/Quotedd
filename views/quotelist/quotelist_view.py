@@ -113,6 +113,11 @@ def add_quotelist():
     quotelist_name = flask.request.form.get("quotelistName")
     quotelist_desc = flask.request.form.get("quotelistDesc")
     
+    if len(quotelist_name) < 1:
+        flask.flash("[E] Quotelist name is empty")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
+    
     ql = QuoteList(quotelist_name, quotelist_desc, user.name)
     ql.srp_save(srp)
     flask.flash("[S] Quotelist created")
