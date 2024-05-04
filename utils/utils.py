@@ -6,9 +6,9 @@ def time_elapsed(quote_datetime : datetime.datetime):
     time_elapsed = time_now - quote_datetime
     
     if time_elapsed.days >= 7:
-        return f"{math.trunc(time_elapsed.days / 7)} weeks ago"
+        return f"{math.trunc(time_elapsed.days / 7)}w ago"
     elif time_elapsed.days >= 1:
-        return f"{time_elapsed.days} days ago"
+        return f"{time_elapsed.days}d ago"
     elif time_elapsed.seconds >= 3600:
         return f"{math.trunc(time_elapsed.seconds / 3600)}h ago"
     elif time_elapsed.seconds >= 60:

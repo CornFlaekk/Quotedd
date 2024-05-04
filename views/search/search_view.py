@@ -29,14 +29,14 @@ def search():
         search_query = ""
     
     
-    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query in q.content)))
-    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query in q.author)))
-    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query in q.book)))
+    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.content.lower())))
+    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.author.lower())))
+    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.book.lower())))
     
-    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query in ql.name)))
-    len_quotelist_description = len(list(srp.filter(QuoteList, lambda ql: search_query in ql.description)))
+    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query.lower() in ql.name.lower())))
+    len_quotelist_description = len(list(srp.filter(QuoteList, lambda ql: search_query.lower() in ql.description.lower())))
     
-    len_user_name = len(list(srp.filter(User, lambda u: search_query in u.name)))
+    len_user_name = len(list(srp.filter(User, lambda u: search_query.lower() in u.name.lower())))
     
     
     results = {
@@ -78,14 +78,14 @@ def search_quote_content():
     search_query = flask.request.args.get("searchQuery")
     
     
-    search_quotes = list(srp.filter(Quote, lambda q: search_query in q.content))
+    search_quotes = list(srp.filter(Quote, lambda q: search_query.lower() in q.content.lower()))
     search_quotes = utils.set_quotes_quotelists(search_quotes, quotelists, srp)
     
-    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query in q.content)))
-    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query in q.author)))
-    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query in q.book)))
-    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query in ql.name)))
-    len_user_name = len(list(srp.filter(User, lambda u: search_query in u.name)))
+    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.content.lower())))
+    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.author.lower())))
+    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.book.lower())))
+    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query.lower() in ql.name.lower())))
+    len_user_name = len(list(srp.filter(User, lambda u: search_query.lower() in u.name.lower())))
 
     if len(search_query) == 0:
         search_quotes = list()
@@ -131,14 +131,14 @@ def search_quote_author():
     search_query = flask.request.args.get("searchQuery")
     
     
-    search_quotes = list(srp.filter(Quote, lambda q: search_query in q.author))
+    search_quotes = list(srp.filter(Quote, lambda q: search_query.lower() in q.author.lower()))
     search_quotes = utils.set_quotes_quotelists(search_quotes, quotelists, srp)
     
-    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query in q.content)))
-    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query in q.author)))
-    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query in q.book)))
-    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query in ql.name)))
-    len_user_name = len(list(srp.filter(User, lambda u: search_query in u.name)))
+    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.content.lower())))
+    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.author.lower())))
+    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.book.lower())))
+    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query.lower() in ql.name.lower())))
+    len_user_name = len(list(srp.filter(User, lambda u: search_query.lower() in u.name.lower())))
     
     if len(search_query) == 0:
         search_quotes = list()
@@ -183,14 +183,14 @@ def search_quote_book():
     search_query = flask.request.args.get("searchQuery")
     
     
-    search_quotes = list(srp.filter(Quote, lambda q: search_query in q.book))
+    search_quotes = list(srp.filter(Quote, lambda q: search_query.lower() in q.book.lower()))
     search_quotes = utils.set_quotes_quotelists(search_quotes, quotelists, srp)
     
-    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query in q.content)))
-    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query in q.author)))
-    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query in q.book)))
-    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query in ql.name)))
-    len_user_name = len(list(srp.filter(User, lambda u: search_query in u.name)))
+    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.content.lower())))
+    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.author.lower())))
+    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.book.lower())))
+    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query.lower() in ql.name.lower())))
+    len_user_name = len(list(srp.filter(User, lambda u: search_query.lower() in u.name.lower())))
     
     if len(search_query) == 0:
         search_quotes = list()
@@ -235,16 +235,16 @@ def search_quotelist_name():
     search_query = flask.request.args.get("searchQuery")
     
     
-    search_quotelists = list(srp.filter(QuoteList, lambda ql: search_query in ql.name))
+    search_quotelists = list(srp.filter(QuoteList, lambda ql: search_query.lower() in ql.name.lower()))
     
     for quotelist in search_quotelists:
         quotelist.safe_id = srp.safe_from_oid(quotelist.oid)
     
-    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query in q.content)))
-    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query in q.author)))
-    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query in q.book)))
-    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query in ql.name)))
-    len_user_name = len(list(srp.filter(User, lambda u: search_query in u.name)))
+    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.content.lower())))
+    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.author.lower())))
+    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.book.lower())))
+    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query.lower() in ql.name.lower())))
+    len_user_name = len(list(srp.filter(User, lambda u: search_query.lower() in u.name.lower())))
     
     if len(search_query) == 0:
         search_quotelists = list()
@@ -289,13 +289,13 @@ def search_user_name():
     search_query = flask.request.args.get("searchQuery")
     
     
-    search_users = list(srp.filter(User, lambda u: search_query in u.name))
+    search_users = list(srp.filter(User, lambda u: search_query.lower() in u.name.lower()))
     
-    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query in q.content)))
-    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query in q.author)))
-    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query in q.book)))
-    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query in ql.name)))
-    len_user_name = len(list(srp.filter(User, lambda u: search_query in u.name)))
+    len_quote_content = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.content.lower())))
+    len_quote_author = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.author.lower())))
+    len_quote_book = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.book.lower())))
+    len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query.lower() in ql.name.lower())))
+    len_user_name = len(list(srp.filter(User, lambda u: search_query.lower() in u.name.lower())))
     
     if len(search_query) == 0:
         search_users = list()

@@ -15,7 +15,7 @@
                             <ul class="list-group">
                                 {% for quote in quotelist.quotes %}
                                     <li class="list-group-item">
-                                        <a class="stretched-link text-decoration-none link-light m-2" rel="noreferrer" href="/quote?quoteSafeID={{ quote.safe_id }}" target="_blank">
+                                        <a class="m-2 link-offset-2 link-light link-underline-opacity-0 link-underline-opacity-50-hover" rel="noreferrer" href="/quote?quoteSafeID={{ quote.safe_id }}" target="_blank">
                                             {{ quote.content }}
                                             &nbsp;
                                             <i class="bi bi-box-arrow-up-right"></i>
