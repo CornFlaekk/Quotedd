@@ -4,8 +4,13 @@
 
 {% include "sidebar.html" %}
     <div class="col-auto col-md-8">
+        {% include "back_button.html" %}
         <!-- Display Quote -->
+        {% if back_link %}
+        <div class="pt-4">
+        {% else %}
         <div class="pt-5">
+        {% endif %}
             {% include "quote.html" %}
         </div>
         

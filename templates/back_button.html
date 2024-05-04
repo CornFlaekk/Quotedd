@@ -1,0 +1,18 @@
+{% block back_button %}
+    {% if back_link %}
+        <button class="mt-3 btn btn-outline-secondary" onclick="goBackOrRedirect()" style="transform: rotate(0);">
+            <i class="bi bi-arrow-left"></i>
+            <script>
+                function goBackOrRedirect() {
+                    // Try to return with browser back
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        // Else, use URL passed in back_link
+                        window.location.href = "{{ back_link }}";
+                    }
+                }
+            </script>
+        </button>
+    {% endif %}
+{% endblock back_button %}

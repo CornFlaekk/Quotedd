@@ -32,10 +32,13 @@ def quotelist():
             quote = srp.load(quote_oid)
             quote.safe_id = quote_id
             quotelist.quotes.append(quote)
+    
+    back_link = flask.request.environ.get("HTTP_REFERER")
 
     values = {
         "quotelist" : quotelist,
-        "user" : user
+        "user" : user,
+        "back_link" : back_link
     }
 
     return flask.render_template("quotelist.html", **values)

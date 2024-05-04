@@ -54,10 +54,13 @@ def quote_page():
     for comment in comments:
         comment.time_elapsed = utils.time_elapsed(comment.date)
     quote.comments = comments
-                    
+    
+    back_link = flask.request.environ.get("HTTP_REFERER")
+    print(back_link)
     values = {
         "quote" : quote,
-        "user"  : user
+        "user"  : user,
+        "back_link" : back_link
     }
     return flask.render_template("quote_page.html", **values)
 

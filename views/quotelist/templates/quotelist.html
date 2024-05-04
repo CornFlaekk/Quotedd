@@ -4,12 +4,22 @@
 
     <!-- Sidebar-->
     {% include "sidebar.html" %}
-                <div class="col-auto col-md-8 pt-5">
+            <div class="col-auto col-md-8">
+                {% include "back_button.html" %}
+                {% if back_link %}
+                    <div class="pt-3">
+                {% else %}
+                    <div class="pt-5">
+                {% endif %}
                     <ul class="list-group">
                         <li class="list-group-item">
                             <span class="fs-4">{{ quotelist.name }}</span>
                             <br>
-                            <span>@{{ quotelist.user }}</span>
+                            <div class="text-secondary-emphasis" style="transform: rotate(0);">
+                                <a class="z-3 stretched-link link-offset-2 link-light link-underline-opacity-0 link-underline-opacity-50-hover" href="/user?username={{ quotelist.user }}">
+                                    @{{ quotelist.user }} 
+                                </a>
+                            </div>
                         </li>
                         <li class="list-group-item">
                             <ul class="list-group">

@@ -16,6 +16,7 @@ search_blueprint = flask.blueprints.Blueprint("search", __name__,
 srp = sirope.Sirope()
 
 
+# MAIN Search Page -> Redirects to page with most results
 @search_blueprint.route("", methods=["GET"])
 def search():
     user = flask_login.current_user

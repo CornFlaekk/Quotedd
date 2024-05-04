@@ -33,11 +33,14 @@ def user_profile():
     user_profile.quotelists = list(srp.filter(QuoteList, lambda ql : ql.user == user_profile.name))
     for quotelist in user_profile.quotelists:
         quotelist.safe_id = srp.safe_from_oid(quotelist.oid)
+        
+    back_link = flask.request.environ.get("HTTP_REFERER")
     
     
     values = {
         "user" : user,
-        "user_profile" : user_profile
+        "user_profile" : user_profile,
+        "back_link" : back_link
     }
     
     return flask.render_template("user_page.html", **values)

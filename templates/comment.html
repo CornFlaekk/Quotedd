@@ -2,7 +2,12 @@
 
     <div class="container-sm card p-3">
         <span class="fs-5">{{ comment.content }}</span>
-        <div class="text-secondary-emphasis pt-2">@{{ comment.user }} · {{ comment.time_elapsed }}</div>
+        <div class="pt-2 text-secondary-emphasis" style="transform: rotate(0);">
+            <a class="z-3 stretched-link link-offset-2 link-light link-underline-opacity-0 link-underline-opacity-50-hover" href="/user?username={{ quote.user }}">
+                @{{ quote.user }} 
+            </a>
+            · {{ quote.time_elapsed }}
+        </div>
     </div>
 
 {% endblock comment_display %}
