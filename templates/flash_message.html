@@ -1,0 +1,24 @@
+{% block flash_message %}
+
+    {% if message[0:3] == "[E]" %}
+        <div role="alert" class="z-3 alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0 m-5" aria-label="error:">
+    {% elif message[0:3] == "[S]" %}
+        <div role="alert" class="z-3 alert alert-time alert-success fade show position-absolute bottom-0 end-0 m-5" aria-label="error:">
+    {% elif message[0:3] == "[W]" %}
+        <div role="alert" class="z-3 alert alert-time alert-warning fade show position-absolute bottom-0 end-0 m-5" aria-label="error:">
+    {% else %}
+        <div role="alert" class="z-3 alert alert-time alert-dark fade show position-absolute bottom-0 end-0 m-5" aria-label="error:">
+    {% endif %}
+        {{ message[3:] }}
+
+    </div>
+    
+    <script>
+        window.setTimeout(function() {
+            $(".alert-time").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove(); 
+            });
+        }, 2500);
+    </script>
+
+{% endblock flash_message %}

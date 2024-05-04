@@ -40,10 +40,10 @@ def login():
         user = User.find(srp, user_name)
         
         if user is None or not user.compare_passwd(user_password):
-            flask.flash("Incorrect login credentials")
+            flask.flash("[E] Incorrect login credentials")
             return flask.redirect("/login")
         else:
-            flask.flash("Login successful")
+            flask.flash("[S] Login successful")
             flask_login.login_user(user, force=True)
             return flask.redirect("/home")
 
@@ -68,7 +68,7 @@ def register():
         
         u = User(user_name, user_email, user_password)
         srp.save(u)
-        flask.flash("User registered")
+        flask.flash("[S] User registered")
         return flask.redirect("/login")
 
 

@@ -89,12 +89,12 @@ def delete():
     quotelist = quotelists_returned[0]
     
     if quotelist is None:
-        flask.flash("Quotelist not found")
+        flask.flash("[E] Quotelist not found")
     
     else:
         quotelist_oid = srp.oid_from_safe(quotelist_safe_id)
         srp.delete(quotelist_oid)
-        flask.flash("Quotelist deleted")
+        flask.flash("[S] Quotelist deleted")
     
     origin_page = flask.request.environ.get("HTTP_REFERER")
     return flask.redirect(origin_page, 302)
@@ -115,6 +115,7 @@ def add_quotelist():
     
     ql = QuoteList(quotelist_name, quotelist_desc, user.name)
     ql.srp_save(srp)
+    flask.flash("[S] Quotelist created")
     
     origin_page = flask.request.environ.get("HTTP_REFERER")
     return flask.redirect(origin_page, 302)
@@ -142,9 +143,11 @@ def add_quote_quotelist():
     if quote_safe_id in quotelist.quote_ids:
         quotelist.remove_quote_id(quote_safe_id)
         quotelist.srp_save(srp)
+        flask.flash("[S] Deleted from Quotelist")
     else:
         quotelist.add_quote_id(quote_safe_id)
         quotelist.srp_save(srp)
+        flask.flash("[S] Added to Quotelist")
         
     origin_page = flask.request.environ.get("HTTP_REFERER")
     return flask.redirect(origin_page, 302)

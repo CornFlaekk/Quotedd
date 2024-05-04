@@ -35,7 +35,6 @@ def search():
     len_quote_book = len(list(srp.filter(Quote, lambda q: search_query.lower() in q.book.lower())))
     
     len_quotelist_name = len(list(srp.filter(QuoteList, lambda ql: search_query.lower() in ql.name.lower())))
-    len_quotelist_description = len(list(srp.filter(QuoteList, lambda ql: search_query.lower() in ql.description.lower())))
     
     len_user_name = len(list(srp.filter(User, lambda u: search_query.lower() in u.name.lower())))
     
@@ -46,13 +45,15 @@ def search():
         len_quote_book : "quote_book",
         
         len_quotelist_name : "quotelist_name",
-        len_quotelist_description : "quotelist_description",
         
         len_user_name : "user_name"
     }
     
     top_result_value = max(results.keys())
     top_result_string = results[top_result_value]
+    
+    if len_quote_content == 0 and len_quote_author == 0 and len_quote_book == 0 and len_quotelist_name == 0 and len_user_name == 0 :
+        flask.flash("[W] No results found")
     
     if len(search_query) == 0:
         len_quote_content = 0
@@ -61,6 +62,7 @@ def search():
         len_quotelist_name = 0
         len_user_name = 0
         top_result_string = "quote_content"
+    
         
     return flask.redirect(f"/search/{top_result_string}/?searchQuery={search_query}")
 

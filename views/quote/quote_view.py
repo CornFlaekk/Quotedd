@@ -27,6 +27,7 @@ def add_quote():
     user = User.current()
     q = Quote(quote_content, quote_book, quote_author, quote_date, user.name)
     q.srp_save(srp)
+    flask.flash("[S] Quote published")
     
     return flask.redirect("/home", 302)
 
@@ -74,6 +75,7 @@ def add_comment():
     user = User.current()
     c = Comment(comment_content, quote_safe_id, comment_date, user.name)
     c.srp_save(srp)
+    flask.flash("[S] Comment published")
     
     origin_page = flask.request.environ.get("HTTP_REFERER")
     return flask.redirect(origin_page, 302)
