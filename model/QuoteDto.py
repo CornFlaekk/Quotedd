@@ -12,13 +12,22 @@ class Quote(Entity):
     def content(self):
         return self.__content
     
+    def set_content(self, content):
+        self.__content = content
+    
     @property
     def book(self):
         return self.__book
     
+    def set_book(self, book):
+        self.__book = book
+    
     @property
     def author(self):
         return self.__author
+    
+    def set_author(self, author):
+        self.__author = author
     
     @property
     def date(self):

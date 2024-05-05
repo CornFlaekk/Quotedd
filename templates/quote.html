@@ -27,7 +27,7 @@
                 <button class="btn btn-outline-secondary dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-plus-circle"></i>&nbsp;</button>
                 <ul class="dropdown-menu dropdown-menu-end">
                     {% for quotelist_name in quote.quotelists_names %}
-                        <li><a class="dropdown-item" href="#" href = '/quotelist/add_quote?quotelistName={{quotelist_name}}&quoteSafeID={{quote.safe_id}}'>{{ quotelist_name }}</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="location.href='/quotelist/add_quote?quotelistName={{quotelist_name}}&quoteSafeID={{quote.safe_id}}'">{{ quotelist_name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -35,6 +35,14 @@
                 <div class="input-group col h-50 flex-row-reverse">
                     <button class="btn btn-outline-secondary dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i>&nbsp;</button>
                     <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <button class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#quoteModal" 
+                                data-bs-content="{{quote.content}}" data-bs-author="{{quote.author}}" data-bs-book="{{quote.book}}" data-bs-safeid="{{quote.safe_id}}">
+                                Edit
+                                &nbsp;
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                        </li>
                         <li>
                             <a class="dropdown-item text-center" href="/quote/delete?quoteSafeID={{quote.safe_id}}">
                                 Delete

@@ -43,6 +43,36 @@ def add_quote():
     return flask.redirect("/home", 302)
 
 
+# > EDIT QUOTE <
+@quote_blueprint.route("/edit", methods=["POST"])
+def edit_quote():
+    user = flask_login.current_user
+    
+    quote_content = flask.request.form.get("quote-content")
+    quote_book = flask.request.form.get("quote-book")
+    quote_author = flask.request.form.get("quote-author")
+    quote_safe_id = flask.request.form.get("quote-safe-id")
+    
+    quote = srp.load(srp.oid_from_safe(quote_safe_id))
+    
+    # If invalid user tries to edit    
+    if quote.user != user.name:
+        flask.flash("[E] Edit not allowed on others quotes")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
+
+    quote.set_content(quote_content)
+    quote.set_book(quote_book)
+    quote.set_author(quote_author)
+    
+    srp.save(quote)
+    flask.flash("[S] Quote updated")
+    
+    origin_page = flask.request.environ.get("HTTP_REFERER")
+    return flask.redirect(origin_page, 302)
+        
+
+
 # > DELETE QUOTE <
 @quote_blueprint.route("/delete", methods=["GET"])
 def delete_quote():

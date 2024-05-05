@@ -40,6 +40,10 @@
         {% for comment in quote.comments %}
             {% include "comment.html" %}
         {% endfor %}
+
+        <!-- Edit Quote Modal -->
+        {% include "quote_modal.html" %}
+
         </div>
     </div>
 {% endblock html_content %}

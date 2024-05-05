@@ -1,0 +1,64 @@
+{% block quote_modal %}
+
+    <div class="modal fade" id="quoteModal" tabindex="-1" aria-labelledby="quoteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="quoteModalLabel">Edit Quote</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/quote/edit" method="post">
+                        <input type="hidden" id="quote-safe-id" name="quote-safe-id">
+                        <div class="mb-3">
+                            <label for="quote-content" class="col-form-label">Quote</label>
+                            <textarea class="form-control h-100 d-inline-block" id="quote-content" name="quote-content"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quote-author" class="col-form-label">Author</label>
+                            <input type="text" class="form-control" id="quote-author" name="quote-author">
+                        </div>
+                        <div class="mb-3">
+                            <label for="quote-book" class="col-form-label">Book</label>
+                            <input type="text" class="form-control" id="quote-book" name="quote-book">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Edit Quote</button>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quoteModal = document.getElementById('quoteModal')
+        if (quoteModal) {
+            quoteModal.addEventListener('show.bs.modal', event => {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            const quote_content = button.getAttribute('data-bs-content')
+            const quote_author = button.getAttribute('data-bs-author')
+            const quote_book = button.getAttribute('data-bs-book')
+            const quote_safe_id = button.getAttribute('data-bs-safeid')
+            // If necessary, you could initiate an Ajax request here
+            // and then do the updating in a callback.
+
+            // Update the modal's content.
+            const quoteContent = quoteModal.querySelector('#quote-content')
+            const quoteAuthor = quoteModal.querySelector("#quote-author")
+            const quoteBook = quoteModal.querySelector("#quote-book")
+            const quoteSafeID = quoteModal.querySelector("#quote-safe-id")
+
+            quoteContent.value = quote_content
+            quoteAuthor.value = quote_author
+            quoteBook.value = quote_book
+            quoteSafeID.value = quote_safe_id
+            })
+        }
+    </script>
+
+
+{% endblock quote_modal %}
