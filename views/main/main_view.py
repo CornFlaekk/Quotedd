@@ -100,15 +100,38 @@ def home():
     except AttributeError:
         return flask.redirect("/login")
     
-    last_quotes = list(srp.load_last(Quote, 10))
+    page = flask.request.args.get("page")
+    if page == '0':
+        return flask.redirect("/home")
+    if page is None:
+        page = 0
+    page = int(page)
+    
+    last_quotes = list(srp.load_all(Quote))
+    last_quotes.sort(key= lambda q : q.date, reverse=True)      #Order by most recent ones
+    n_quotes = 10
+        
+    # Calculate the max page index
+    total_pages = (len(last_quotes) // n_quotes)
+    if len(last_quotes) % n_quotes == 0:
+        total_pages = (len(last_quotes) // n_quotes) -1
+
+    
+    #If try to access page with no entries -> go back to last page
+    if (page > total_pages):
+        page = total_pages
+        return flask.redirect(f"/home?page={page}")
+    
+    last_quotes = last_quotes[page * n_quotes : page * n_quotes + n_quotes]       #Only show Quotes on current page (Pagination)
     quotelists = list(srp.filter(QuoteList, lambda ql: ql.user == user.name))
     
-    last_quotes = utils.set_quotes_quotelists(last_quotes, quotelists, srp) 
-        
+    last_quotes = utils.set_quotes_quotelists(last_quotes, quotelists, srp)
         
     values = {
         "last_quotes" : last_quotes,
-        "user" : user
+        "user" : user,
+        "page" : page,
+        "total_pages" : total_pages
     }
     
     return flask.render_template("home.html", **values)

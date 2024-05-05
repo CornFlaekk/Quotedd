@@ -31,6 +31,20 @@
                     {% endfor %}
                 </ul>
             </div>
+            {% if user.name == quote.user %}
+                <div class="input-group col h-50 flex-row-reverse">
+                    <button class="btn btn-outline-secondary dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i>&nbsp;</button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item text-center" href="/quote/delete?quoteSafeID={{quote.safe_id}}">
+                                Delete
+                                &nbsp;
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
         </div>
         <!-- Redirect to Quote page -->
     </div>

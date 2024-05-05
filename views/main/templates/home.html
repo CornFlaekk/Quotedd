@@ -54,7 +54,27 @@
                 {% for quote in last_quotes %}
                     {% include "quote_link.html" %}
                 {% endfor %}
-                <div class="container-sm py-4">
+                <div class="container-sm row py-4 mb-5 text-center">
+                    <div class="col-sm-3"></div>
+                    {% if page > 0 %}
+                    <div class="col text-center">
+                        <button class="btn btn-outline-secondary" onclick="location.href='/home?page={{ page -1 }}'">
+                            <i class="bi bi-arrow-left-square"></i>
+                            &nbsp;
+                            Newer Quotes
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% if page < total_pages %}
+                    <div class="col text-center">
+                        <button class="btn btn-outline-secondary" onclick="location.href='/home?page={{ page +1 }}'">
+                            Older Quotes
+                            &nbsp;
+                            <i class="bi bi-arrow-right-square"></i>
+                        </button>
+                    </div>
+                    {% endif %}
+                    <div class="col-sm-3"></div>
                 </div>
             </div>
         </div>

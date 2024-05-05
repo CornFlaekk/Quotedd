@@ -42,6 +42,40 @@ def add_quote():
     
     return flask.redirect("/home", 302)
 
+
+# > DELETE QUOTE <
+@quote_blueprint.route("/delete", methods=["GET"])
+def delete_quote():
+    user = flask_login.current_user
+    quote_safe_id = flask.request.args.get("quoteSafeID")
+    
+    quote = srp.load(srp.oid_from_safe(quote_safe_id))
+    
+    if quote.user != user.name:
+        flask.flash("[E] You can't delete a quote not yours")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
+    else:
+        
+        #Delete this quote_link from Quotelists
+        quotelists = list(srp.filter(QuoteList, lambda ql: quote_safe_id in ql.quote_ids))
+        print("Quotelists afectadas: " + str(len(quotelists)))
+        for quotelist in quotelists:
+            quotelist.quote_ids.remove(quote_safe_id)
+            srp.save(quotelist)     #Update DB
+            
+        #Delete all quotes from this quote
+        comments = list(srp.filter(Comment, lambda c: c.quote_id == quote_safe_id))
+        print("Comentarios afectados: " + str(len(comments)))
+        for comment in comments:
+            srp.delete(comment.oid)
+        
+        print(srp.delete(quote.oid))
+        
+        flask.flash("[S] Quote deleted")
+        return flask.redirect("/home")
+
+
 # > VIEW QUOTE PAGE <
 @quote_blueprint.route("", methods=["GET"])
 def quote_page():
