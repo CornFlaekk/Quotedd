@@ -1,0 +1,54 @@
+{% block quotelist_modal %}
+
+    <div class="modal fade" id="quotelistModal" tabindex="-1" aria-labelledby="quotelistModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="quoteModalLabel">Edit Quotelist</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/quotelist/edit" method="post">
+                        <input type="hidden" id="quotelist-safe-id" name="quotelist-safe-id">
+                        <div class="mb-3">
+                            <label for="quotelist-name" class="col-form-label">Name</label>
+                            <input type="text" class="form-control" id="quotelist-name" name="quotelist-name"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quotelist-description" class="col-form-label">Description</label>
+                            <input type="text" class="form-control" id="quotelist-description" name="quotelist-description">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Edit Quotelist</button>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quoteModal = document.getElementById('quotelistModal')
+        if (quoteModal) {
+            quoteModal.addEventListener('show.bs.modal', event => {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            const quotelist_name = button.getAttribute('data-bs-name')
+            const quotelist_description = button.getAttribute('data-bs-description')
+            const quotelist_safe_id = button.getAttribute('data-bs-safeid')
+            // Update the modal's content.
+            const quotelistName = quoteModal.querySelector('#quotelist-name')
+            const quotelistDescription = quoteModal.querySelector("#quotelist-description")
+            const quotelistSafeID = quoteModal.querySelector("#quotelist-safe-id")
+
+            quotelistName.value = quotelist_name
+            quotelistDescription.value = quotelist_description
+            quotelistSafeID.value = quotelist_safe_id
+            })
+        }
+    </script>
+
+
+{% endblock quotelist_modal %}

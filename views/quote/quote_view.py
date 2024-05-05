@@ -53,6 +53,20 @@ def edit_quote():
     quote_author = flask.request.form.get("quote-author")
     quote_safe_id = flask.request.form.get("quote-safe-id")
     
+    if len(quote_content) < 1:
+        flask.flash("[E] Quote is empty")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
+    elif len(quote_book) < 1:
+        flask.flash("[E] Book is empty")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
+    elif len(quote_author) < 1:
+        flask.flash("[E] Author is empty")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
+    
+    
     quote = srp.load(srp.oid_from_safe(quote_safe_id))
     
     # If invalid user tries to edit    
@@ -113,6 +127,11 @@ def quote_page():
     
     quote_safe_id = flask.request.args.get("quoteSafeID")
     quote_oid = srp.oid_from_safe(quote_safe_id)
+    
+    if quote_oid is None:
+        flask.flash("[E] Quote not found")
+        return flask.redirect("/home")
+    
     quote = srp.load(quote_oid)
     quote.safe_id = quote_safe_id
     quote.time_elapsed = utils.time_elapsed(quote.date)

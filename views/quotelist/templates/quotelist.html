@@ -13,8 +13,33 @@
                 {% endif %}
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <span class="fs-4">{{ quotelist.name }}</span>
-                            <br>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <span class="fs-4">{{ quotelist.name }}</span>
+                                </div>
+                                {% if quotelist.user == user.name %}
+                                <div class="col text-end">
+                                    <button class="btn btn-outline-secondary dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i>&nbsp;</button>
+                                    <ul class="dropdown-menu dropdown-menu-end">    
+                                        <li>
+                                            <button class="btn btn-outline-secondary dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#quotelistModal" 
+                                            data-bs-name="{{quotelist.name}}" data-bs-description="{{quotelist.description}}" data-bs-safeid="{{quotelist.safe_id}}">
+                                                Edit
+                                                &nbsp;
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-center" href='/quotelist/delete?quotelistSafeID={{quotelist.safe_id}}'>
+                                                Delete
+                                                &nbsp;
+                                                <i class="bi bi-trash-fill text-secondary-emphasis"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {% endif %}
+                            </div>
                             <div class="text-secondary-emphasis" style="transform: rotate(0);">
                                 <a class="z-3 stretched-link link-offset-2 link-light link-underline-opacity-0 link-underline-opacity-50-hover" href="/user?username={{ quotelist.user }}">
                                     @{{ quotelist.user }} 
@@ -37,4 +62,5 @@
                         </li>
                     </ul>
                 </div>
+            {% include "quotelist_modal.html" %}
 {% endblock html_content %}

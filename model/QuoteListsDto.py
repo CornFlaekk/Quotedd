@@ -11,9 +11,15 @@ class QuoteList(Entity):
     def name(self):
         return self.__name
     
+    def set_name(self, name):
+        self.__name = name
+    
     @property
     def description(self):
         return self.__description
+    
+    def set_description(self, description):
+        self.__description = description
     
     @property
     def quote_ids(self):

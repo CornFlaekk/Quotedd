@@ -39,6 +39,10 @@
                                         <a class="btn btn-outline-secondary border text-decoration-none" href="/quotelist?quotelistSafeID={{quotelist.safe_id}}" target="_blank" rel="noreferrer">
                                             <i class="bi bi-box-arrow-up-right text-secondary-emphasis"></i>
                                         </a>
+                                        <a class="btn btn-outline-secondary border text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#quotelistModal" 
+                                            data-bs-name="{{quotelist.name}}" data-bs-description="{{quotelist.description}}" data-bs-safeid="{{quotelist.safe_id}}">
+                                                <i class="bi bi-pencil-fill text-secondary-emphasis"></i>
+                                        </a>
                                         <a class="btn btn-outline-danger border text-decoration-none" onclick="location.href = '/quotelist/delete?quotelistSafeID={{quotelist.safe_id}}'">
                                             <i class="bi bi-trash-fill text-secondary-emphasis"></i>
                                         </a>
@@ -75,5 +79,6 @@
                 </div>
             </div>
         </div>
+    {% include "quotelist_modal.html" %}
 
 {% endblock html_content %}

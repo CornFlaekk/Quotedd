@@ -25,7 +25,12 @@ def quotelist():
     
     quotelist_safe_id = flask.request.args.get("quotelistSafeID")
     quotelist_id = srp.oid_from_safe(quotelist_safe_id)
+    if quotelist_id is None:
+        flask.flash("[E] Quotelist not found")
+        return flask.redirect("/home")
+    
     quotelist = srp.load(quotelist_id)
+    quotelist.safe_id = quotelist_safe_id
     quotelist.quotes = []
     for quote_id in quotelist.quote_ids:
             quote_oid = srp.oid_from_safe(quote_id)
@@ -84,9 +89,12 @@ def delete():
         return flask.redirect("/login")
     
     quotelist_safe_id = flask.request.args.get("quotelistSafeID")
-    user_id = user.get_id()
-    quotelists_returned = list(srp.filter(QuoteList, lambda ql: ql.get_safe_id(srp) == quotelist_safe_id and ql.user == user_id))
-    quotelist = quotelists_returned[0]
+    quotelist = srp.load(srp.oid_from_safe(quotelist_safe_id))
+    
+    if user.name != quotelist.user:
+        flask.flash("[E] Delete not allowed on others QuoteLists")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
     
     if quotelist is None:
         flask.flash("[E] Quotelist not found")
@@ -97,6 +105,8 @@ def delete():
         flask.flash("[S] Quotelist deleted")
     
     origin_page = flask.request.environ.get("HTTP_REFERER")
+    if "/quotelist?quotelistSafeID=" in origin_page:
+        return flask.redirect("/home")
     return flask.redirect(origin_page, 302)
     
     
@@ -121,6 +131,41 @@ def add_quotelist():
     ql = QuoteList(quotelist_name, quotelist_desc, user.name)
     ql.srp_save(srp)
     flask.flash("[S] Quotelist created")
+    
+    origin_page = flask.request.environ.get("HTTP_REFERER")
+    return flask.redirect(origin_page, 302)
+
+
+# > EDIT QUOTELIST <
+@quotelist_blueprint.route("/edit", methods=["POST"])
+def edit_quotelist():
+    user = flask_login.current_user
+    try:
+        user.name
+    except AttributeError:
+        return flask.redirect("/login")
+    
+    quotelist_name = flask.request.form.get("quotelist-name")
+    quotelist_desc = flask.request.form.get("quotelist-description")
+    quotelist_safe_id = flask.request.form.get("quotelist-safe-id")
+    
+    if len(quotelist_name) < 1:
+        flask.flash("[E] Quotelist name is empty")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
+    
+    quotelist = srp.load(srp.oid_from_safe(quotelist_safe_id))
+    
+    if quotelist.user != user.name:
+        flask.flash("[E] Edit not allowed on others Quotelists")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
+    
+    quotelist.set_name(quotelist_name)
+    quotelist.set_description(quotelist_desc)
+    
+    srp.save(quotelist)
+    flask.flash("[S] Quotelist updated")
     
     origin_page = flask.request.environ.get("HTTP_REFERER")
     return flask.redirect(origin_page, 302)
