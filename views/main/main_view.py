@@ -24,7 +24,7 @@ def main():
     user = User.current()
     print(user)
     if user is None:
-        return flask.send_from_directory(main_blueprint.static_folder, "index.html")
+        return flask.render_template("index.html")
     else:
         return flask.redirect("/home")
 
@@ -33,7 +33,7 @@ def main():
 @main_blueprint.route("/login", methods=["GET", "POST"])
 def login():
     if flask.request.method == "GET":
-        return flask.send_from_directory(main_blueprint.static_folder, "login.html")
+        return flask.render_template("login.html")
     else:
         user_name = flask.request.form.get("userName")
         user_password = flask.request.form.get("userPassword")
@@ -53,7 +53,7 @@ def login():
         else:
             flask.flash("[S] Login successful")
             flask_login.login_user(user, force=True)
-            return flask.redirect("/home")
+            return flask.render_template("home.html")
 
 
 # > LOGOUT <
@@ -87,7 +87,7 @@ def register():
         u = User(user_name, user_email, user_password)
         srp.save(u)
         flask.flash("[S] User registered")
-        return flask.redirect("/login")
+        return flask.render_template("login.html")
 
 
 # > HOME PAGE <

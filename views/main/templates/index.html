@@ -1,0 +1,26 @@
+{% extends "skeleton.html" %}
+{% block head_title %}Home{% endblock head_title%}
+{% block head_content %}
+<style>
+    body {
+        background-image: url('/static/background.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+</style>
+{% endblock head_content%}
+{% block html_content %}            
+    
+    <div class="card position-absolute top-50 start-50 translate-middle col-4 p-3 text-center">
+        <span class="mt-3 mb-5 fs-1">Start using Quotedd today!</span>
+        <span class="my-3 fs-3">"Saving your quotes has never been easier"</span>
+        <p class="text-end pe-3 pb-3">-Your best advice</p>
+        <div class="row mt-5 justify-content-center">
+            <a class="col-5 m-3 align-self-center btn btn-primary" href="/login">Login</a>
+            <a class="col-5 m-3 align-self-center btn btn-secondary" href="/register">Register</a>
+        </div>
+    </div>
+
+{% endblock html_content %}
