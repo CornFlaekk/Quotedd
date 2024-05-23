@@ -68,14 +68,14 @@ def logout():
 @main_blueprint.route("/register", methods=["GET", "POST"])
 def register():
     if flask.request.method == "GET":
-        return flask.send_from_directory(main_blueprint.static_folder, "register.html")
+        return flask.render_template("register.html")
     else:
         user_name = flask.request.form.get("userName")
         user_email = flask.request.form.get("userEmail")
         user_password = flask.request.form.get("userPassword")
         
         if len(user_name) < 3:
-            flask.flask("[E] Username needs to have at least 3 letters")
+            flask.flash("[E] Username needs to have at least 3 letters")
             return flask.redirect("/register")
         elif (len(user_email) < 3) or ('@' not in user_email) or ('.' not in user_email):
             flask.flash("[E] Email not valid")

@@ -145,6 +145,8 @@ def quote_page():
                 
     comments = list(srp.filter(Comment, lambda c: c.quote_id == quote.safe_id))
     for comment in comments:
+        print(comment.content)
+        print(comment.date)
         comment.time_elapsed = utils.time_elapsed(comment.date)
         comment.safe_id = srp.safe_from_oid(comment.oid)
     quote.comments = comments
