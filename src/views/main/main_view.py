@@ -84,6 +84,13 @@ def register():
             flask.flash("[E] Password needs to have at least 3 letters")
             return flask.redirect("/register")
         
+        if len(list(srp.filter(User, lambda u: u.name == user_name))):
+            flask.flash("[E] Username already registered")
+            return flask.redirect("/register")
+        elif(len(list(srp.filter(User, lambda u: u.email == user_email)))):
+            flask.flash("[E] Email already registered")
+            return flask.redirect("/register")
+        
         u = User(user_name, user_email, user_password)
         srp.save(u)
         flask.flash("[S] User registered")
