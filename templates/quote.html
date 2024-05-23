@@ -31,6 +31,7 @@
                     {% endfor %}
                 </ul>
             </div>
+            <!-- If user is propietary of Quote enable EDIT and DELETE buttons -->
             {% if user.name == quote.user %}
                 <div class="input-group col h-50 flex-row-reverse">
                     <button class="btn btn-outline-secondary dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i>&nbsp;</button>

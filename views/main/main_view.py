@@ -53,7 +53,7 @@ def login():
         else:
             flask.flash("[S] Login successful")
             flask_login.login_user(user, force=True)
-            return flask.render_template("home.html")
+            return flask.redirect("/home")
 
 
 # > LOGOUT <

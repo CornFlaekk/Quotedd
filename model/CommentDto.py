@@ -11,6 +11,9 @@ class Comment(Entity):
     def content(self):
         return self.__content
     
+    def set_content(self, content):
+        self.__content = content
+    
     @property
     def quote_id(self):
         return self.__quote_id

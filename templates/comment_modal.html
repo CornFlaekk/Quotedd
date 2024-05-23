@@ -1,0 +1,47 @@
+{% block comment_modal %}
+
+    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="commentModalLabel">Edit Comment</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/quote/comments/edit" method="post">
+                        <input type="hidden" id="comment-safe-id" name="comment-safe-id">
+                        <div class="mb-3">
+                            <label for="comment-content" class="col-form-label">Comment</label>
+                            <textarea class="form-control h-100 d-inline-block" id="comment-content" name="comment-content"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Edit Comment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const commentModal = document.getElementById('commentModal')
+        if (commentModal) {
+            commentModal.addEventListener('show.bs.modal', event => {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            const comment_content = button.getAttribute('data-bs-content')
+            const comment_safe_id = button.getAttribute('data-bs-safeid')
+            // Update the modal's content.
+            const commentContent = commentModal.querySelector('#comment-content')
+            const commentSafeID = commentModal.querySelector("#comment-safe-id")
+
+            commentContent.value = comment_content
+            commentSafeID.value = comment_safe_id
+            })
+        }
+    </script>
+
+
+{% endblock comment_modal %}

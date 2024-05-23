@@ -103,18 +103,16 @@ def delete_quote():
         
         #Delete this quote_link from Quotelists
         quotelists = list(srp.filter(QuoteList, lambda ql: quote_safe_id in ql.quote_ids))
-        print("Quotelists afectadas: " + str(len(quotelists)))
         for quotelist in quotelists:
             quotelist.quote_ids.remove(quote_safe_id)
             srp.save(quotelist)     #Update DB
             
-        #Delete all quotes from this quote
+        #Delete all comments from this quote
         comments = list(srp.filter(Comment, lambda c: c.quote_id == quote_safe_id))
-        print("Comentarios afectados: " + str(len(comments)))
         for comment in comments:
             srp.delete(comment.oid)
         
-        print(srp.delete(quote.oid))
+        srp.delete(quote.oid)
         
         flask.flash("[S] Quote deleted")
         return flask.redirect("/home")
@@ -148,10 +146,10 @@ def quote_page():
     comments = list(srp.filter(Comment, lambda c: c.quote_id == quote.safe_id))
     for comment in comments:
         comment.time_elapsed = utils.time_elapsed(comment.date)
+        comment.safe_id = srp.safe_from_oid(comment.oid)
     quote.comments = comments
     
     back_link = flask.request.environ.get("HTTP_REFERER")
-    print(back_link)
     values = {
         "quote" : quote,
         "user"  : user,
@@ -179,3 +177,53 @@ def add_comment():
     
     origin_page = flask.request.environ.get("HTTP_REFERER")
     return flask.redirect(origin_page, 302)
+
+# > EDIT COMMENT CONTENT <
+@quote_blueprint.route("/comments/edit", methods=["POST"])
+def edit_comment():
+    comment_safe_id = flask.request.form.get("comment-safe-id")
+    comment_content = flask.request.form.get("comment-content")
+    
+    if len(comment_content) < 1:
+        flask.flash("[E] Comment is empty")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page)
+    
+    
+    comment = srp.load(srp.oid_from_safe(comment_safe_id))
+    
+    user = flask_login.current_user
+    
+    # If invalid user tries to edit    
+    if comment.user != user.name:
+        flask.flash("[E] Edit not allowed on others comments")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
+
+    comment.set_content(comment_content)
+    srp.save(comment)
+    flask.flash("[S] Comment updated")
+    
+    origin_page = flask.request.environ.get("HTTP_REFERER")
+    return flask.redirect(origin_page, 302)
+
+
+# > DELETE COMMENT <
+@quote_blueprint.route("/comments/delete", methods=["GET"])
+def delete_comment():
+    user = flask_login.current_user
+    comment_safe_id = flask.request.args.get("commentSafeID")
+    
+    comment = srp.load(srp.oid_from_safe(comment_safe_id))
+    
+    if comment.user != user.name:
+        flask.flash("[E] You can't delete a comment not yours")
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
+    else:
+        
+        srp.delete(comment.oid)
+        flask.flash("[S] Comment deleted")
+        
+        origin_page = flask.request.environ.get("HTTP_REFERER")
+        return flask.redirect(origin_page, 302)
