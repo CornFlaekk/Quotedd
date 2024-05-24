@@ -1,5 +1,13 @@
 # Quotedd
 
+## Index
+
+- [Summary](#summary)
+- [Screenshots](#screenshots)
+- [Installation](#installation)
+- [Bundled Database](#bundled-database)
+- [Secret Key](#secret-key)
+
 ## Summary
 
 Quotedd is a Web Application where you can share your favorite Quotes.
@@ -58,7 +66,7 @@ You can:
     flask run
     ```
 
-## Database
+## Bundled Database
 
 The application comes bundled with a `dump.rdb` file. It includes a bunch of quotes and lists. If you don't want to use it you can delete the file.
 
