@@ -1,0 +1,5 @@
+doc/documentacion.md
+doc/Documentacion.pdf
+
+__pycache__
+.venv/

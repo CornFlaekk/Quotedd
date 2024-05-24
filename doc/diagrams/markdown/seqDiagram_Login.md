@@ -4,7 +4,7 @@
 
 ```mermaid
 sequenceDiagram
-    participant User
+    actor User
     participant Application
     User -> Application: Enviar username y password
     Application -> Application: Validar datos
@@ -12,7 +12,8 @@ sequenceDiagram
         Application -> User: Informar del error
         Application -> User: Redirigir a /login
     else Datos válidos
-        Application -> User: Iniciar sesión
+        Application -> Application: Iniciar sesión
+        Application -> User: Informar del éxito
         Application -> User: Redirigir a /home
     end
 ```

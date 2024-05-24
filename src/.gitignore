@@ -1,5 +1,3 @@
 __pycache__/
 __pycache__/app.cpython-311.pyc
 .venv
-instance/config.json
-dump.rdb
