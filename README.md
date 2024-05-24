@@ -14,13 +14,19 @@ You can:
 
 ## Screenshots
 
-[login](/screenshots/login.png)
-[home](/screenshots/home.png)
-[home_bottom](/screenshots/home_bottom.png)
-[search](/screenshots/search.png)
-[your_quotelists](/screenshots/your_quotelists.png)
-[edit_quote](/screenshots/edit_quote.png)
-[user_page](/screenshots/user_page.png)
+![login](./screenshots/login.png)
+
+![home](/screenshots/home.png)
+
+![home_bottom](/screenshots/home_bottom.png)
+
+![search](/screenshots/search.png)
+
+![your_quotelists](/screenshots/your_quotelists.png)
+
+![edit_quote](/screenshots/edit_quote.png)
+
+![user_page](/screenshots/user_page.png)
 
 ## Installation
 
